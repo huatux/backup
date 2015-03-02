@@ -49,6 +49,15 @@ vi vmnet-only/netif.c  #152行的
 tar cvf vmnet.tar vmnet-only/
 mv vmnet.tar /usr/lib/vmware/modules/source/
 
+tcp        0      0 0.0.0.0:443             0.0.0.0:*               LISTEN      12876/vmware-hostd     <===vmware-workstation-server 
+tcp        0      0 0.0.0.0:902             0.0.0.0:*               LISTEN      12764/vmware-authdl    <===vmware
+update-rc.d vmware-workstation-server disable   #默认不启动vmware-workstation-server服务，不开启443端口
+update-rc.d vmware disable                     #默认不启动vmware服务，不开启902端口
+service vmware start                           #在需要运行虚拟机之前打开vmware服务，平时不用虚拟机的时候省资源
+#如果不在乎占用那点资源，或者不希望每次开虚拟机都要手动打开vmware服务，直接修改vmware启动脚本关掉vmware-authdl,注释掉/etc/init.d/vmware第345行
+sed -i 's/vmware_exec \x27VMware Authentication Daemon\x27 vmware_start_authdlauncher/#删掉这些注释开启vmware-authdl#vmware_exec \x27VMware Authentication Daemon\x27 vmware_start_authdlauncher/' /etc/init.d/vmware
+
+
 #声卡保存音量和解决声卡独占
 apt-get install alsa-base  #重启后执行下面的命令
 alsactl init           #初始化
