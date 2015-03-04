@@ -63,9 +63,12 @@ export PATH=/usr/local/arm/bin:$PATH
 cd src
 make
 ----------------------------------------------------------------------------------------------------------------------------------------------
-#下载固件
-./osmocon -p /dev/ttyUSB0 -m c123xor ../../target/firmware/board/PHONE_TYPE/FIRMWARE.compalram.bin  #./host/osmocon/osmocon
-./ccch_scan -a 871 -i 127.0.0.1                                                                                                                                       #./host/layer23/src/misc/ccch_scan
+echo /usr/local/lib > /etc/ld.so.conf.d/libosmocon.conf
+ldconfig
+
+./host/osmocon/osmocon -m c123xor -p /dev/ttyUSB0 ./target/firmware/board/compal_e88/layer1.compalram.bin
+./host/layer23/src/misc/cell_log
+./host/layer23/src/misc/ccch_scan -i 127.0.0.1 -a ARFCN NR
 -----------------------------------from osmocom---gnu-arm-build.sh--------------------------------------------------------------
 #!/bin/sh
 
