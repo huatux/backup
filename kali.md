@@ -90,6 +90,7 @@ update-alternatives --set javac /usr/lib/jvm/jdk1.8.0_31/bin/javac
 java -version   #查看是否正确链接到java jdk版本
 
 #安装teamviewer,windows QQ远程控制的替代方案
+apt-get install libjpeg62
 dpkg -i teamviewer_10.0.37742_i386.deb
 update-rc.d teamviewerd disable  #让teamviewerd后台程序默认不随机启动
 
@@ -195,12 +196,16 @@ make
 make install
 
 #OTR wget https://otr.cypherpunks.ca/libotr-4.1.0.tar.gz && wget https://otr.cypherpunks.ca/pidgin-otr-4.0.1.tar.gz && apt-get build-dep pidgin
-apt-get insall libgcrypt11-dev
+apt-get install libgcrypt11-dev
 cd /tmp
 tar xvf libotr-4.1.0.tar.gz
 cd libotr-4.1.0/
 ./configure --prefix=/usr
 make && make install
+cd pidgin-2.10.11/
+./configure --prefix=/usr --enable-gnutls=yes
+make
+make install
 tar xvf pidgin-otr-4.0.1.tar.gz
 cd pidgin-otr-4.0.1/
 ./configure --prefix=/usr
