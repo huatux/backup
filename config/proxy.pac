@@ -18,7 +18,7 @@ function FindProxyForURL(url, host) {
         plainHost = "False"
     };
     var list = [
-        'google.com','gmail.com','gstatic.com','google-analytics.com','googleusercontent.com','doubleclick.net',
+        'google.com','gmail.com','gstatic.com','google-analytics.com','googleusercontent.com','doubleclick.net','googleapis.com','googlesyndication.com',
 	'twitter.com','twimg.com',
 	'facebook.com',
 	'youtube.com','ytimg.com',
