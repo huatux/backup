@@ -17,8 +17,6 @@ function FindProxyForURL(url, host) {
     } else {
         plainHost = "False"
     };
-    var Proxy = 'SOCKS5 127.0.0.1:8080;';
-
     var list = [
         'google.com','gmail.com','gstatic.com','google-analytics.com','googleusercontent.com','doubleclick.net',
 	'twitter.com','twimg.com',
@@ -26,11 +24,11 @@ function FindProxyForURL(url, host) {
 	'youtube.com','ytimg.com',
 	'wordpress.com','wp.com','w.org','gravatar.com'
     ];
-
+    var Proxy = 'SOCKS5 127.0.0.1:8080;';
     for(var i=0, l=list.length; i<l; i++) {
         if (NeedProxy(url, list[i])) {
             return Proxy;
         }
     }
-    return 'DIRECT';
+    return "DIRECT;Proxy";
 }
