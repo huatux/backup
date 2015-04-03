@@ -17,7 +17,7 @@ cd AttitudeAdjustment 或branch  或trunk
 ./scripts/feeds install -a
 #加shadowsocks
 git clone https://github.com/shadowsocks/openwrt-shadowsocks.git package/shadowsocks-libev
-#配置
+#配置 官方配置https://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/config.ar71xx_generic
 make defconfig
 make menuconfig
 
