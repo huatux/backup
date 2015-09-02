@@ -33,6 +33,9 @@ apt-get upgrade
 #安装输入法,个人习惯选择ibus,按自己的习惯安装输入法.重启后右键点击右上角的输入法图标->首选项->输入法+中文->高级(勾上所有程序共享使用同一个输入法).但是现在先不重启,重启后记得设置就行.
 apt-get install ibus ibus-googlepinyin
 
+kali mini解决中文乱码:
+apt-get install xfonts-wqy
+
 #安装各种源里常用的软件,以下是我的习惯…
 apt-get install gedit emacs pidgin pidgin-otr iceweasel-l10n-zh-cn icedove icedove-l10n-zh-cn axel
 
