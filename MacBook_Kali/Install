@@ -1,0 +1,11 @@
+#For MacOS X
+hdiutil convert -format UDRW -o kali-linux-2.0-amd64.img kali-linux-2.0-amd64.iso
+dd if=kali-linux-2.0-amd64.img.dmg of=/dev/rdisk$N bs=1m
+
+#For Linux
+dd if=kali-linux-2.0-amd64.iso of=/dev/sd$N bs=1M
+
+#wireless card driver
+cd /lib/firmware/brcm/
+wget https://git.kernel.org/cgit/linux/kernel/git/firmware/linux-firmware.git/plain/brcm/brcmfmac43602-pcie.bin
+

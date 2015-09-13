@@ -1,0 +1,6 @@
+menuentry "MacOS X Yosemite 10.10.5" {
+insmod hfsplus
+set root=(hd1,gpt3)
+chainloader /System/Library/CoreServices/boot.efi
+boot
+}
