@@ -1,0 +1,132 @@
+parted -s /dev/sda mklabel gpt
+parted -s /dev/sda mkpart primary ext3 0% 128M
+parted -s /dev/sda mkpart primary ext4 128M  100%
+
+#!/bin/bash
+mkfs.ext3 -F /dev/sda1
+
+cryptsetup -v --verify-passphrase luksFormat /dev/sda2
+cryptsetup luksOpen /dev/sda2 sda2-crypt
+
+pvcreate /dev/mapper/sda2-crypt
+vgcreate vg /dev/mapper/sda2-crypt
+lvcreate -L 2G vg -n swap
+lvcreate -l +100%FREE vg -n root
+mkswap /dev/mapper/vg-swap
+mkfs.ext4 -F /dev/mapper/vg-root
+
+mkdir /mnt/kali
+mount /dev/mapper/vg-root /mnt/kali && cd /mnt/kali
+mkdir /mnt/kali/boot
+mount -t ext3 /dev/sda1 /mnt/kali/boot
+
+wget http://cdimage.kali.org/kali-2017.1/kali-linux-2017.1-amd64.iso
+
+mkdir /mnt/kali/{iso,squashfs}
+mount -t iso9660 -o loop kali-linux-2017.1-amd64.iso /mnt/kali/iso/
+mount -t squashfs -o loop /mnt/kali/iso/live/filesystem.squashfs /mnt/kali/squashfs/
+
+rsync -avz /mnt/kali/squashfs/ /mnt/kali/
+
+umount /mnt/kali/squashfs/
+umount /mnt/kali/iso/
+rm -rf /mnt/kali/{iso,squashfs,0}
+
+mount -o bind /dev /mnt/kali/dev/
+mount -o bind /dev/pts/ /mnt/kali/dev/pts
+mount -t proc /proc/ /mnt/kali/proc/
+mount -t sysfs /sys/ /mnt/kali/sys/
+mv /etc/lvm/archive/ /mnt/kali/etc/lvm/  
+mv /etc/lvm/backup/ /mnt/kali/etc/lvm/
+
+chroot /mnt/kali/ /bin/bash
+
+
+#=================================================================================
+
+#!/bin/bash
+cat > /etc/apt/sources.list << EOF
+deb https://archive-5.kali.org/kali kali-rolling main non-free contrib
+deb-src https://archive-5.kali.org/kali kali-rolling main non-free contrib
+EOF
+
+sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+export STATIC_IP=$(ifconfig eth0|grep inet|grep -v inet6|awk -F" " '{print $2}')
+export GATE_WAY=$(/sbin/ip route|awk '/default/ { print $3 }')
+echo "IP:$STATIC_IP     GW:$GATE_WAY"
+
+cat >> /etc/network/interfaces << EOF
+auto eth0
+iface eth0 inet static
+address $STATIC_IP
+netmask 255.255.255.0
+gateway $GATE_WAY
+dns-nameserver 8.8.8.8
+dns-nameserver 8.8.4.4
+EOF
+
+cat > /etc/resolv.conf << EOF
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+EOF
+
+echo 'Linode' > /etc/hostname
+
+cat > /etc/hosts << EOF
+127.0.0.1   localhost
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+EOF
+
+export sda2_UUID=$(blkid /dev/sda2|cut -d" " -f2|sed 's/"//g')
+cat > /etc/crypttab << EOF
+sda2-crypt $sda2_UUID none luks
+EOF
+
+export SDA1_UUID=$(blkid /dev/sda1|cut -d" " -f2|sed 's/"//g')
+cat > /etc/fstab << EOF
+/dev/mapper/vg-root /               ext4    errors=remount-ro 0       1
+/boot           ext3    defaults        0       2
+/dev/mapper/vg-swap none            swap    sw              0       0
+EOF
+
+cat >> /etc/modprobe.d/blacklist.conf<< EOF
+blacklist floppy
+EOF
+
+
+apt-get -y update
+
+apt-get -y upgrade
+
+apt-get -y install grub2
+
+cat > /etc/default/grub << EOF
+GRUB_DEFAULT=0
+GRUB_TIMEOUT=1
+GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
+GRUB_CMDLINE_LINUX="console=ttyS0,19200n8"
+GRUB_SERIAL_COMMAND="serial --speed=19200 --unit=0 --word=8 --parity=no --stop=1"
+GRUB_TERMINAL=serial
+EOF
+
+update-grub
+
+ssh-keygen -A
+
+systemctl enable ssh
+systemctl disable gdm3
+systemctl set-default multi-user.target
+
+update-initramfs -u
+
+passwd root
+exit
+
+#手工卸载重启
+umount -l /mnt/kali
+cryptsetup luksClose sda2-crypt
+
