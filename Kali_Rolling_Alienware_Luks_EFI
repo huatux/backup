@@ -119,7 +119,7 @@ chmod 1777 /tmp
 apt-get update
 
 ################################Method ONE################################
-apt-get -y install net-tools initramfs-tools openssh-server linux-image-4.14.0-kali3-amd64
+apt-get -y install net-tools initramfs-tools openssh-server linux-image-4.18.0-kali2-amd64
 apt-get -y install locales-all console-common less vim git apt-transport-https network-manager
 apt-get -y install cryptsetup lvm2
 
@@ -187,18 +187,6 @@ apt-get -y install build-essential
 apt-get install fcitx fcitx-googlepinyin
 
 #chrome 
-apt-get install libdbusmenu-glib4 libdbusmenu-gtk4 libindicator7 libappindicator1 gconf-service libgconf-2-4
+apt-get install libdbusmenu-glib4 libdbusmenu-gtk4 libindicator3-7 libappindicator3-1 gconf-service libgconf-2-4
 dpkg -i google-chrome-stable_current_amd64.deb
-
-#firefox-mozilla
-tar xvf firefox-54.0.1.tar.bz2 -C /usr/lib/
-ln -s /usr/lib/firefox/firefox-bin /usr/bin/firefox-moz
-sed -i 's#firefox-esr#firefox-moz#' /usr/bin/firefox
-cp /usr/share/applications/{firefox-esr.desktop,firefox-moz.desktop}
-sed -i 's#/usr/lib/firefox-esr/firefox-esr#/usr/lib/firefox/firefox-bin#' /usr/share/applications/firefox-moz.desktop
-
-#flash_player
-tar xvf flash_player_npapi_linux.x86_64.tar.gz
-cp -r usr/* /usr/
-mv libflashplayer.so /usr/lib/mozilla/plugins/libflashplayer.so
 
