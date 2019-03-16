@@ -1,5 +1,5 @@
 ```apt-get install --no-install-recommends gettext build-essential autoconf libtool asciidoc xmlto automake```
-##apt-get install libc-ares-dev libpcre3-dev libmbedtls-dev libsodium-dev libev-dev 
+```# apt-get install libc-ares-dev libpcre3-dev libmbedtls-dev libsodium-dev libev-dev```
 
 ```wget https://c-ares.haxx.se/download/c-ares-1.15.0.tar.gz && tar xvf c-ares*.tar.gz
 cd c-ares-1.15.0
@@ -115,7 +115,7 @@ ExecStart=/usr/bin/ss-local -c /etc/shadowsocks-libev/client.json
 WantedBy=multi-user.target
 EOF
 ```
-===================================================
-####RedHat 系列systemctl文件路径改为   
+----------------------------------
+###RedHat 系列‘systemctl’文件路径改为   
 /usr/lib/systemd/system/shadowsocks-libev.service
 Group=nogroup改为Grou=nobody
