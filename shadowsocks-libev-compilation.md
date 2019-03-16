@@ -118,5 +118,5 @@ EOF
 ```
 ----------------------------------
 #### RedHat 系列‘systemctl’文件路径改为   
-/usr/lib/systemd/system/shadowsocks-libev.service
+/usr/lib/systemd/system/shadowsocks-libev.service</br>
 Group=nogroup改为Grou=nobody
