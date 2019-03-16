@@ -1,5 +1,6 @@
 ```apt-get install --no-install-recommends gettext build-essential autoconf libtool asciidoc xmlto automake```
-```# apt-get install libc-ares-dev libpcre3-dev libmbedtls-dev libsodium-dev libev-dev```
+
+```#apt-get install libc-ares-dev libpcre3-dev libmbedtls-dev libsodium-dev libev-dev```
 
 ```wget https://c-ares.haxx.se/download/c-ares-1.15.0.tar.gz && tar xvf c-ares*.tar.gz
 cd c-ares-1.15.0
