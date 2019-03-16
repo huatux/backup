@@ -1,35 +1,40 @@
-apt-get install --no-install-recommends gettext build-essential autoconf libtool asciidoc xmlto automake 
-#apt-get install libc-ares-dev libpcre3-dev libmbedtls-dev libsodium-dev libev-dev 
+```apt-get install --no-install-recommends gettext build-essential autoconf libtool asciidoc xmlto automake```
+##apt-get install libc-ares-dev libpcre3-dev libmbedtls-dev libsodium-dev libev-dev 
 
-wget https://c-ares.haxx.se/download/c-ares-1.15.0.tar.gz && tar xvf c-ares*.tar.gz
+```wget https://c-ares.haxx.se/download/c-ares-1.15.0.tar.gz && tar xvf c-ares*.tar.gz
 cd c-ares-1.15.0
 ./configure --prefix=/usr
 make
 make install
-
+```
+```
 wget https://ftp.pcre.org/pub/pcre/pcre-8.42.tar.gz && tar xvf pcre*.tar.gz
 cd pcre-8.42
 ./configure --prefix=/usr --enable-utf8 --enable-unicode-properties
 make
 make install
-
+```
+```
 wget https://tls.mbed.org/download/mbedtls-2.13.0-gpl.tgz && tar xvf mbedtls*.tgz
 cd mbedtls-2.13.0
 make SHARED=1  (动态库，如果编译静态库shadowsocks的--enable-shared参数去掉)
 make install DESTDIR=/usr 
-
+```
+```
 wget https://download.libsodium.org/libsodium/releases/libsodium-1.0.16.tar.gz && tar xvf libsodium*.tar.gz
 cd libsodium-1.0.16
 ./configure --prefix=/usr --disable-ssp
 make
 make install
-
+```
+```
 wget http://dist.schmorp.de/libev/libev-4.24.tar.gz && tar xvf libev*.tar.gz
 cd libev-4.24
 ./configure --prefix=/usr
 make
 make install
-
+```
+```
 git clone https://github.com/shadowsocks/shadowsocks-libev.git
 cd shadowsocks-libev
 git submodule update --init --recursive
@@ -40,7 +45,7 @@ git submodule update --init --recursive
 
 make
 make install
-
+```
 --------------------------------------------------
 mkdir /etc/shadowsocks-libev
 
