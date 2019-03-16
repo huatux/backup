@@ -19,7 +19,7 @@ make install
 ```
 wget https://tls.mbed.org/download/mbedtls-2.16.0-gpl.tgz && tar xvf mbedtls*.tgz
 cd mbedtls-2.16.0
-make SHARED=1  (动态库，如果编译静态库shadowsocks的--enable-shared参数去掉)
+make SHARED=1  #动态库，如果编译静态库shadowsocks的--enable-shared参数去掉
 make install DESTDIR=/usr 
 ```
 ```
