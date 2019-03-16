@@ -47,6 +47,7 @@ make
 make install
 ```
 --------------------------------------------------
+```
 mkdir /etc/shadowsocks-libev
 
 cat << EOF > /etc/shadowsocks-libev/server.json
@@ -75,7 +76,9 @@ EOF
 
 ss-server -a nobody -u -c /etc/shadowsocks-libev/server.json -f /var/run/shadowsocks.pid
 ss-local -c /etc/shadowsocks-libev/client.json -u
-==================================================
+```
+-------------------------------------------------
+```
 cat << EOF >> /lib/systemd/system/shadowsocks-libev.service
 [Unit]
 Description=Shadowsocks-libev Default Server Service
@@ -92,7 +95,9 @@ ExecStart=/usr/bin/ss-server -c /etc/shadowsocks-libev/server.json -u
 [Install]
 WantedBy=multi-user.target
 EOF
-==================================================
+```
+----------------------------------------------------
+```
 cat << EOF >> /lib/systemd/system/shadowsocks.service
 [Unit]
 Description=Shadowsocks-Libev Custom Client Service for X
@@ -109,8 +114,8 @@ ExecStart=/usr/bin/ss-local -c /etc/shadowsocks-libev/client.json
 [Install]
 WantedBy=multi-user.target
 EOF
+```
 ===================================================
-RedHat 系列systemctl文件路径改为   
+####RedHat 系列systemctl文件路径改为   
 /usr/lib/systemd/system/shadowsocks-libev.service
-
 Group=nogroup改为Grou=nobody
