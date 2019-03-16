@@ -2,7 +2,8 @@
 
 ```#apt-get install libc-ares-dev libpcre3-dev libmbedtls-dev libsodium-dev libev-dev```
 
-```wget https://c-ares.haxx.se/download/c-ares-1.15.0.tar.gz && tar xvf c-ares*.tar.gz
+```
+wget https://c-ares.haxx.se/download/c-ares-1.15.0.tar.gz && tar xvf c-ares*.tar.gz
 cd c-ares-1.15.0
 ./configure --prefix=/usr
 make
