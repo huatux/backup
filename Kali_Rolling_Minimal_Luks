@@ -137,6 +137,7 @@ DROPBEAR_OPTIONS="-p 2222"
 EOF
 
 cp ~/.ssh/authorized_keys /etc/dropbear-initramfs/authorized_keys
+sed -i '1s#^#no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="/bin/cryptroot-unlock" #' /etc/dropbear-initramfs/authorized_keys
 
 echo $(grep DRIVER /sys/class/net/eth0/device/uevent|cut -d'=' -f2) >> /etc/initramfs-tools/modules
 
