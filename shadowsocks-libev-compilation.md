@@ -17,21 +17,21 @@ make
 make install
 ```
 ```
-wget https://tls.mbed.org/download/mbedtls-2.16.0-gpl.tgz && tar xvf mbedtls*.tgz
-cd mbedtls-2.16.0
+wget https://tls.mbed.org/download/mbedtls-2.16.2-gpl.tgz && tar xvf mbedtls*.tgz
+cd mbedtls-2.16.2
 make SHARED=1  #动态库，如果编译静态库shadowsocks的--enable-shared参数去掉
 make install DESTDIR=/usr 
 ```
 ```
-wget https://download.libsodium.org/libsodium/releases/libsodium-1.0.17.tar.gz && tar xvf libsodium*.tar.gz
-cd libsodium-1.0.17
+wget https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz && tar xvf libsodium*.tar.gz
+cd libsodium-1.0.18
 ./configure --prefix=/usr --disable-ssp
 make
 make install
 ```
 ```
-wget http://dist.schmorp.de/libev/libev-4.25.tar.gz && tar xvf libev*.tar.gz
-cd libev-4.25
+wget http://dist.schmorp.de/libev/libev-4.27.tar.gz && tar xvf libev*.tar.gz
+cd libev-4.27
 ./configure --prefix=/usr
 make
 make install
