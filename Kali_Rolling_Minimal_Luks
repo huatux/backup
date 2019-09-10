@@ -37,7 +37,7 @@ chroot /mnt/kali/ /bin/bash
 apt-get update
 #apt-get upgrade
 
-apt-get -y install net-tools initramfs-tools openssh-server linux-image-4.18.0-kali2-amd64
+apt-get -y install net-tools initramfs-tools openssh-server linux-image-5.2.0-kali2-amd64
 
 apt-get -y install locales-all
 
@@ -47,8 +47,8 @@ apt-get -y install cryptsetup lvm2
 systemctl enable lvm2
 
 cat > /etc/apt/sources.list << EOF
-deb https://archive-5.kali.org/kali kali-rolling main non-free contrib
-deb-src https://archive-5.kali.org/kali kali-rolling main non-free contrib
+deb https://kali.download/kali kali-rolling main non-free contrib
+deb-src https://kali.download/kali kali-rolling main non-free contrib
 EOF
 
 export STATIC_IP=$(ifconfig eth0|grep inet|grep -v inet6|awk -F" " '{print $2}')
