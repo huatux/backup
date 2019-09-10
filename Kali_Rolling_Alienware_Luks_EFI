@@ -1,6 +1,6 @@
 cat > /etc/apt/sources.list << EOF
-deb http://archive-5.kali.org/kali kali-rolling main contrib non-free
-deb-src http://archive-5.kali.org/kali kali-rolling main contrib non-free
+deb https://kali.download/kali kali-rolling main contrib non-free
+deb-src https://kali.download/kali kali-rolling main contrib non-free
 EOF
 
 parted -s /dev/sdb mklabel gpt
@@ -63,7 +63,7 @@ mount -t ext4 /dev/mapper/kali-data /mnt/kali/data
 
 apt-get update
 apt-get install debootstrap
-debootstrap --arch amd64 kali-rolling /mnt/kali http://archive-5.kali.org/kali
+debootstrap --arch amd64 kali-rolling /mnt/kali https://kali.download/kali
 
 for fs in /dev /sys /proc;do mount --bind $fs /mnt/kali$fs;done
 
@@ -71,8 +71,8 @@ mkdir /mnt/kali/etc/lvm
 rsync -avz /etc/lvm/* /mnt/kali/etc/lvm
 
 cat > /mnt/kali/etc/apt/sources.list << EOF
-deb http://archive-5.kali.org/kali kali-rolling main contrib non-free
-deb-src http://archive-5.kali.org/kali kali-rolling main contrib non-free
+deb https://kali.download/kali kali-rolling main contrib non-free
+deb-src https://kali.download/kali kali-rolling main contrib non-free
 EOF
 
 cat > /mnt/kali/etc/resolv.conf << EOF
