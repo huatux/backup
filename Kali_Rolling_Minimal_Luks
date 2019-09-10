@@ -1,4 +1,4 @@
-#/boot 128M!!!
+#/boot 512M!!!Change to the size you want
 parted -s /dev/sda mklabel msdos
 parted -s /dev/sda mkpart primary ext3 0% 512M
 parted -s /dev/sda mkpart primary ext4 512M  100%
