@@ -9,7 +9,7 @@ cryptsetup luksOpen /dev/sda2 sda2-crypt
 
 #swap 4G!!!
 pvcreate /dev/mapper/sda2-crypt
-vgcreate vg /dev/mapper/sda2-crypt
+vgcreate kali /dev/mapper/sda2-crypt
 lvcreate -L 4G kali -n swap
 lvcreate -l +100%FREE kali -n root
 mkswap /dev/mapper/kali-swap
