@@ -27,7 +27,7 @@ ln -s /tmp/debootstrap-1.0.116 /usr/share/debootstrap && cd /usr/share/debootstr
 #wget -q -O - https://archive.kali.org/archive-key.asc | apt-key add
 ./debootstrap --arch amd64 kali-rolling /mnt/kali http://kali.download/kali
 
-for fs in /dev /sys /proc /dev/pts;do mount --bind $fs /mnt/kali$fs;done
+for fs in /dev /sys /proc;do mount --bind $fs /mnt/kali$fs;done
 
 mkdir /mnt/kali/etc/lvm
 rsync -avz /etc/lvm/* /mnt/kali/etc/lvm
