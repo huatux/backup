@@ -10,15 +10,15 @@ make
 make install
 ```
 ```
-wget https://ftp.pcre.org/pub/pcre/pcre-8.43.tar.gz && tar xvf pcre*.tar.gz
-cd pcre-8.43
+wget https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz && tar xvf pcre*.tar.gz
+cd pcre-8.44
 ./configure --prefix=/usr --enable-utf8 --enable-unicode-properties
 make
 make install
 ```
 ```
-wget https://tls.mbed.org/download/mbedtls-2.16.2-gpl.tgz && tar xvf mbedtls*.tgz
-cd mbedtls-2.16.2
+wget https://tls.mbed.org/download/mbedtls-2.16.5-gpl.tgz && tar xvf mbedtls*.tgz
+cd mbedtls-2.16.5
 make SHARED=1  #动态库，如果编译静态库shadowsocks的--enable-shared参数去掉
 make install DESTDIR=/usr 
 ```
@@ -30,8 +30,8 @@ make
 make install
 ```
 ```
-wget http://dist.schmorp.de/libev/libev-4.27.tar.gz && tar xvf libev*.tar.gz
-cd libev-4.27
+wget http://dist.schmorp.de/libev/libev-4.33.tar.gz && tar xvf libev*.tar.gz
+cd libev-4.33
 ./configure --prefix=/usr
 make
 make install
