@@ -68,6 +68,11 @@ mount -v -o bind /dev /mnt/kali/dev
 mount -f -vt tmpfs tmpfs /mnt/kali/dev/shm
 mount -f -vt devpts -o gid=4,mode=620 devpts /mnt/kali/dev/pts
 
+################################Method ONE################################
+apt-get update
+apt-get -y install debootstrap
+debootstrap --foreign --arch amd64 kali-rolling /mnt/kali https://kali.download/kali
+
 mkdir /mnt/kali/etc/lvm
 rsync -avz /etc/lvm/* /mnt/kali/etc/lvm
 
@@ -113,12 +118,6 @@ blacklist floppy
 EOF
 
 cp /root/.bashrc /mnt/kali/root/
-
-
-################################Method ONE################################
-apt-get update
-apt-get -y install debootstrap
-debootstrap --foreign --arch amd64 kali-rolling /mnt/kali https://kali.download/kali
 
 LANG=C chroot /mnt/kali /debootstrap/debootstrap --second-stage
 
@@ -166,6 +165,56 @@ reboot
 
 ################################Method TWO################################
 rsync -aAXv /lib/live/mount/rootfs/filesystem.squashfs/ --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"}  /mnt/kali/
+
+mkdir /mnt/kali/etc/lvm
+rsync -avz /etc/lvm/* /mnt/kali/etc/lvm
+
+cat > /mnt/kali/etc/apt/sources.list << EOF
+deb https://kali.download/kali kali-rolling main contrib non-free
+deb-src https://kali.download/kali kali-rolling main contrib non-free
+EOF
+
+cat > /mnt/kali/etc/resolv.conf << EOF
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+EOF
+
+echo 'Alienware' > /mnt/kali/etc/hostname
+
+cat > /mnt/kali/etc/hosts << EOF
+127.0.0.1       localhost kali
+::1             localhost ip6-localhost ip6-loopback
+fe00::0         ip6-localnet
+ff00::0         ip6-mcastprefix
+ff02::1         ip6-allnodes
+ff02::2         ip6-allrouters
+EOF
+
+cat > /mnt/kali/etc/crypttab << EOF
+encryption /dev/sdb3 none luks
+EOF
+
+cat > /mnt/kali/etc/fstab << EOF
+/dev/mapper/kali-root     /            ext4    errors=remount-ro    0    1
+/dev/sdb2                 /boot        ext3    defaults             0    2
+/dev/sdb1                 /boot/efi    vfat    defaults             0    2
+/dev/mapper/kali-swap     none         swap    sw                   0    0
+/dev/mapper/kali-home     /home        ext4    defaults             0    2
+/dev/mapper/kali-usr      /usr	       ext4    defaults	            0    2
+/dev/mapper/kali-var      /var         ext4    defaults             0    2
+/dev/mapper/kali-tmp      /tmp         ext4    defaults             0    2
+/dev/mapper/kali-data     /data        ext4    defaults             0    2
+EOF
+
+cat >> /mnt/kali/etc/modprobe.d/blacklist.conf<< EOF
+blacklist floppy
+EOF
+
+cp /root/.bashrc /mnt/kali/root/
+
+chroot /mnt/kali/ /bin/bash
+
+chmod 1777 /tmp
 
 apt update
 apt -y install grub-efi-amd64
