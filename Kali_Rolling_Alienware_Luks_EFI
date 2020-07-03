@@ -50,7 +50,7 @@ mkfs.ext4 /dev/mapper/kali-data
 
 mkdir /mnt/kali
 mount -t ext4 /dev/mapper/kali-root /mnt/kali
-mkdir -pv /mnt/kali/{boot,home,usr,var,tmp,data,dev/pts}
+mkdir -pv /mnt/kali/{boot,home,usr,var,tmp,data,proc,dev/pts}
 
 mount -t ext3 /dev/sdb2 /mnt/kali/boot
 mkdir /mnt/kali/boot/efi
