@@ -60,6 +60,7 @@ mount -t ext4 /dev/mapper/kali-usr /mnt/kali/usr
 mount -t ext4 /dev/mapper/kali-var /mnt/kali/var
 mount -t ext4 /dev/mapper/kali-tmp /mnt/kali/tmp
 mount -t ext4 /dev/mapper/kali-data /mnt/kali/data
+swapon /dev/mapper/kali-swap
 
 apt-get update
 apt-get install debootstrap
