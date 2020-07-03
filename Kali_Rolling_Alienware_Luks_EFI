@@ -50,7 +50,7 @@ mkfs.ext4 /dev/mapper/kali-data
 
 mkdir /mnt/kali
 mount -t ext4 /dev/mapper/kali-root /mnt/kali
-mkdir -pv /mnt/kali/{boot,home,usr,var,tmp,data,proc,dev/pts}
+mkdir -pv /mnt/kali/{boot,home,usr,var,tmp,data,proc,dev,sys}
 
 mount -t ext3 /dev/sdb2 /mnt/kali/boot
 mkdir /mnt/kali/boot/efi
@@ -66,7 +66,11 @@ apt-get update
 apt-get install debootstrap
 debootstrap --foreign --arch amd64 kali-rolling /mnt/kali https://kali.download/kali
 
-for fs in /dev /sys /proc /dev/pts;do mount --bind $fs /mnt/kali$fs;done
+mount -vt proc proc /mnt/kali/proc
+mount -vt sysfs sysfs /mnt/kali/sys
+mount -v -o bind /dev /mnt/kali/dev
+mount -f -vt tmpfs tmpfs /mnt/kali/dev/shm
+mount -f -vt devpts -o gid=4,mode=620 devpts /mnt/kali/dev/pts
 
 mkdir /mnt/kali/etc/lvm
 rsync -avz /etc/lvm/* /mnt/kali/etc/lvm
