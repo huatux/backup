@@ -63,9 +63,9 @@ mount -t ext4 /dev/mapper/kali-data /mnt/kali/data
 
 apt-get update
 apt-get install debootstrap
-debootstrap --arch amd64 kali-rolling /mnt/kali https://kali.download/kali
+debootstrap --foreign --arch amd64 kali-rolling /mnt/kali https://kali.download/kali
 
-for fs in /dev /sys /proc;do mount --bind $fs /mnt/kali$fs;done
+for fs in /dev /sys /proc /dev/pts;do mount --bind $fs /mnt/kali$fs;done
 
 mkdir /mnt/kali/etc/lvm
 rsync -avz /etc/lvm/* /mnt/kali/etc/lvm
@@ -112,6 +112,8 @@ blacklist floppy
 EOF
 
 cp /root/.bashrc /mnt/kali/root/
+
+LANG=C chroot /mnt/kali /debootstrap/debootstrap --second-stage
 chroot /mnt/kali/ /bin/bash
 
 chmod 1777 /tmp
@@ -126,6 +128,7 @@ apt-get -y install cryptsetup lvm2
 apt-get -y install kali-linux-full
 apt-get -y install kali-desktop-gnome
 apt-get -y install gnome-terminal
+#apt-get -y install xfce4 kali-menu wpasupplicant kali-defaults
 apt-get -y install firmware-linux-nonfree firmware-misc-nonfree firmware-atheros
 
 
@@ -170,7 +173,7 @@ useradd -m -G video,audio,cdrom,sudo -s /bin/bash huatux
 passwd huatux
 
 exit
-for fs in /dev /sys /proc;do umount /mnt/kali$fs;done
+for fs in /dev /sys /proc /dev/pts;do umount /mnt/kali$fs;done
 umount /mnt/kali/boot/efi
 umount /mnt/kali/boot
 umount /mnt/kali/home
