@@ -165,9 +165,10 @@ umount /mnt/kali/data
 reboot
 
 ################################Method TWO################################
-rsync -avz /lib/live/mount/rootfs/filesystem.squashfs/ /mnt/kali/
+rsync -aAXv /lib/live/mount/rootfs/filesystem.squashfs/ --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"}  /mnt/kali/
 
-apt-get -y install grub-efi-amd64
+apt update
+apt -y install grub-efi-amd64
 grub-install /dev/sdb
 update-grub
 efibootmgr -v
