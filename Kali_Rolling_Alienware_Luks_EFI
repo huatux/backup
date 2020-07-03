@@ -62,10 +62,6 @@ mount -t ext4 /dev/mapper/kali-tmp /mnt/kali/tmp
 mount -t ext4 /dev/mapper/kali-data /mnt/kali/data
 swapon /dev/mapper/kali-swap
 
-apt-get update
-apt-get install debootstrap
-debootstrap --foreign --arch amd64 kali-rolling /mnt/kali https://kali.download/kali
-
 mount -vt proc proc /mnt/kali/proc
 mount -vt sysfs sysfs /mnt/kali/sys
 mount -v -o bind /dev /mnt/kali/dev
@@ -118,14 +114,20 @@ EOF
 
 cp /root/.bashrc /mnt/kali/root/
 
+
+################################Method ONE################################
+apt-get update
+apt-get -y install debootstrap
+debootstrap --foreign --arch amd64 kali-rolling /mnt/kali https://kali.download/kali
+
 LANG=C chroot /mnt/kali /debootstrap/debootstrap --second-stage
+
 chroot /mnt/kali/ /bin/bash
 
 chmod 1777 /tmp
 
 apt-get update
 
-################################Method ONE################################
 apt-get -y install net-tools initramfs-tools openssh-server linux-image-5.6.0-kali2-amd64
 apt-get -y install locales-all console-common less vim git apt-transport-https network-manager
 apt-get -y install cryptsetup lvm2
