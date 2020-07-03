@@ -121,7 +121,7 @@ chmod 1777 /tmp
 apt-get update
 
 ################################Method ONE################################
-apt-get -y install net-tools initramfs-tools openssh-server linux-image-4.18.0-kali2-amd64
+apt-get -y install net-tools initramfs-tools openssh-server linux-image-5.6.0-kali2-amd64
 apt-get -y install locales-all console-common less vim git apt-transport-https network-manager
 apt-get -y install cryptsetup lvm2
 
