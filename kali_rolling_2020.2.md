@@ -1,12 +1,8 @@
-## New User
-```
-useradd -m -G video,audio,cdrom,sudo -s /bin/bash huatux
-passwd huatux
-```
-
 ## Chinese Input method
 ```
-apt-get install fcitx fcitx-googlepinyin
+apt-get install fcitx5 fcitx5-pinyin kde-config-fcitx5
+im-config
+sed -i 's/CloudPinyinEnabled=True/CloudPinyinEnabled=False/' /home/huatux/.config/fcitx5/conf/pinyin.conf
 ```
 
 ## chrome 
@@ -22,6 +18,11 @@ ln -s /usr/lib/firefox/firefox-bin /usr/bin/firefox-moz
 sed -i 's#firefox-esr#firefox-moz#' /usr/bin/firefox
 cp /usr/share/applications/{firefox-esr.desktop,firefox-moz.desktop}
 sed -i 's#/usr/lib/firefox-esr/firefox-esr#/usr/lib/firefox/firefox-bin#' /usr/share/applications/firefox-moz.desktop
+```
+
+## Remove Kdeconnected
+```
+apt remove kdeconnect
 ```
 
 ## JDK
