@@ -17,7 +17,7 @@ make
 make install
 ```
 ```
-wget https://github.com/ARMmbed/mbedtls/archive/v2.24.0.tar.gz && tar xvf mbedtls*.tgz
+wget https://github.com/ARMmbed/mbedtls/archive/v2.24.0.tar.gz && tar xvf v2.24.0.tar.gz
 cd mbedtls-2.24.0
 make SHARED=1  #动态库，如果编译静态库shadowsocks的--enable-shared参数去掉
 make install DESTDIR=/usr 
