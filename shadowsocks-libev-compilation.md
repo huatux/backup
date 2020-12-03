@@ -3,8 +3,8 @@
 ```#apt-get install libc-ares-dev libpcre3-dev libmbedtls-dev libsodium-dev libev-dev```
 
 ```
-wget https://c-ares.haxx.se/download/c-ares-1.15.0.tar.gz && tar xvf c-ares*.tar.gz
-cd c-ares-1.15.0
+wget https://c-ares.haxx.se/download/c-ares-1.17.1.tar.gz && tar xvf c-ares*.tar.gz
+cd c-ares-1.17.1
 ./configure --prefix=/usr
 make
 make install
@@ -17,14 +17,14 @@ make
 make install
 ```
 ```
-wget https://tls.mbed.org/download/mbedtls-2.16.5-gpl.tgz && tar xvf mbedtls*.tgz
-cd mbedtls-2.16.5
+wget https://github.com/ARMmbed/mbedtls/archive/v2.24.0.tar.gz && tar xvf mbedtls*.tgz
+cd mbedtls-2.24.0
 make SHARED=1  #动态库，如果编译静态库shadowsocks的--enable-shared参数去掉
 make install DESTDIR=/usr 
 ```
 ```
-wget https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz && tar xvf libsodium*.tar.gz
-cd libsodium-1.0.18
+curl -O https://download.libsodium.org/libsodium/releases/LATEST.tar.gz && tar xvf LATEST.tar.gz
+cd libsodium-stable
 ./configure --prefix=/usr --disable-ssp
 make
 make install
