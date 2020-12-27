@@ -102,6 +102,8 @@ systemctl enable lvm2
 #grub2 安装的时候记得安装到/dev/sda Make sure Install Grub2 to sda
 apt-get -y install grub2
 
+grub-install /dev/sda
+
 update-grub
 
 ssh-keygen -A
