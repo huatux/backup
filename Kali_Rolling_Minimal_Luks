@@ -28,8 +28,6 @@ ln -s /tmp/debootstrap /usr/share/debootstrap && cd /usr/share/debootstrap
 #wget -q -O - https://archive.kali.org/archive-key.asc | apt-key add
 ./debootstrap --foreign --arch amd64 kali-rolling /mnt/kali http://kali.download/kali
 
-for fs in /dev /sys /proc /dev/pts;do mount --bind $fs /mnt/kali$fs;done
-
 mkdir /mnt/kali/etc/lvm
 rsync -avz /etc/lvm/* /mnt/kali/etc/lvm
 
@@ -84,6 +82,8 @@ EOF
 cat >> /mnt/kali/etc/modprobe.d/blacklist.conf<< EOF
 blacklist floppy
 EOF
+
+for fs in /dev /sys /proc /dev/pts;do mount --bind $fs /mnt/kali$fs;done
 
 chroot /mnt/kali /bin/bash 
 
