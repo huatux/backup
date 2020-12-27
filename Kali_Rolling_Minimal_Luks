@@ -140,6 +140,8 @@ cat << EOF >> /etc/initramfs-tools/conf.d/network_config
 export IP=$STATIC_IP::$GATE_WAY:255.255.255.0:kali:eth0:off
 EOF
 
+sed -i 's#GRUB_CMDLINE_LINUX=""#GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"#' /etc/default/grub
+
 chmod 600 /etc/dropbear-initramfs/authorized_keys
 update-initramfs -u
 exit
