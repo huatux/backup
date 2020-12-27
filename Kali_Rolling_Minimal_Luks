@@ -20,46 +20,42 @@ mount /dev/mapper/kali-root /mnt/kali
 mkdir /mnt/kali/boot
 mount -t ext3 /dev/sda1 /mnt/kali/boot
 
-wget http://kali.download/kali/pool/main/d/debootstrap/debootstrap_1.0.116.tar.gz
+cd /tmp
+wget http://kali.download/kali/pool/main/d/debootstrap/debootstrap_1.0.123.tar.gz
 tar xvf debootstrap*.tar.gz -C /tmp
 rm -rf /usr/share/debootstrap
-ln -s /tmp/debootstrap-1.0.116 /usr/share/debootstrap && cd /usr/share/debootstrap
+ln -s /tmp/debootstrap /usr/share/debootstrap && cd /usr/share/debootstrap
 #wget -q -O - https://archive.kali.org/archive-key.asc | apt-key add
-./debootstrap --arch amd64 kali-rolling /mnt/kali http://kali.download/kali
+./debootstrap --foreign --arch amd64 kali-rolling /mnt/kali http://kali.download/kali
 
 for fs in /dev /sys /proc /dev/pts;do mount --bind $fs /mnt/kali$fs;done
 
 mkdir /mnt/kali/etc/lvm
 rsync -avz /etc/lvm/* /mnt/kali/etc/lvm
 
-chroot /mnt/kali/ /bin/bash
+chroot /mnt/kali/ /debootstrap/debootstrap --second-stage
 
-apt-get update
-#apt-get upgrade
+cat > /mnt/kali/etc/resolv.conf << EOF
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+EOF
 
-apt-get -y install net-tools initramfs-tools openssh-server linux-image-5.2.0-kali3-amd64
+cat > /mnt/kali/etc/apt/sources.list << EOF
+deb http://kali.download/kali kali-rolling main non-free contrib
+deb-src http://kali.download/kali kali-rolling main non-free contrib
+EOF
 
-apt-get -y install locales-all
-
-apt-get -y install locales console-common less vim git apt-transport-https network-manager
-
-cat > /etc/crypttab << EOF
+cat > /mnt/kali/etc/crypttab << EOF
 sda2-crypt /dev/sda2 none luks
 EOF
 
-apt-get -y install cryptsetup lvm2
-systemctl enable lvm2
-
-cat > /etc/apt/sources.list << EOF
-deb https://kali.download/kali kali-rolling main non-free contrib
-deb-src https://kali.download/kali kali-rolling main non-free contrib
-EOF
-
-export STATIC_IP=$(ifconfig eth0|grep inet|grep -v inet6|awk -F" " '{print $2}')
+#CHANGE enp0s10 to your net interface name
+export NET_INTERFACE=enp0s10
+export STATIC_IP=$(ifconfig $NET_INTERFACE|grep inet|grep -v inet6|awk -F" " '{print $2}')
 export GATE_WAY=$(/sbin/ip route|awk '/default/ { print $3 }')
 echo "IP:$STATIC_IP     GW:$GATE_WAY"
 
-cat >> /etc/network/interfaces << EOF
+cat >> /mnt/kali/etc/network/interfaces << EOF
 auto eth0
 iface eth0 inet static
 address $STATIC_IP
@@ -69,14 +65,9 @@ dns-nameserver 8.8.8.8
 dns-nameserver 8.8.4.4
 EOF
 
-cat > /etc/resolv.conf << EOF
-nameserver 8.8.8.8
-nameserver 8.8.4.4
-EOF
+echo 'Linode' > /mnt/kali/etc/hostname
 
-echo 'Linode' > /etc/hostname
-
-cat > /etc/hosts << EOF
+cat > /mnt/kali/etc/hosts << EOF
 127.0.0.1   localhost
 # The following lines are desirable for IPv6 capable hosts
 ::1     localhost ip6-localhost ip6-loopback
@@ -84,29 +75,32 @@ ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 EOF
 
-cat > /etc/fstab << EOF
+cat > /mnt/kali/etc/fstab << EOF
 /dev/mapper/kali-root /               ext4    errors=remount-ro 0       1
 /dev/sda1 /boot           ext3    defaults        0       2
 /dev/mapper/kali-swap none            swap    sw              0       0
 EOF
 
-cat >> /etc/modprobe.d/blacklist.conf<< EOF
+cat >> /mnt/kali/etc/modprobe.d/blacklist.conf<< EOF
 blacklist floppy
 EOF
 
+chroot /mnt/kali /bin/bash 
+
+apt update 
+
+apt-get -y install net-tools initramfs-tools openssh-server linux-image-5.9.0-kali5-amd64
+
+apt-get -y install locales-all
+
+apt-get -y install locales console-common less vim git apt-transport-https network-manager
+
+apt-get -y install cryptsetup lvm2
+systemctl enable lvm2
+
+
 #grub2 安装的时候记得安装到/dev/sda Make sure Install Grub2 to sda
 apt-get -y install grub2
-
-###############################For Linode Lish##################################
-cat > /etc/default/grub << EOF
-GRUB_DEFAULT=0
-GRUB_TIMEOUT=1
-GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
-GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0 console=ttyS0,19200n8"
-GRUB_SERIAL_COMMAND="serial --speed=19200 --unit=0 --word=8 --parity=no --stop=1"
-GRUB_TERMINAL=serial
-EOF
-################################################################################
 
 update-grub
 
@@ -137,9 +131,9 @@ DROPBEAR_OPTIONS="-p 2222"
 EOF
 
 cp ~/.ssh/authorized_keys /etc/dropbear-initramfs/authorized_keys
-sed -i '1s#^#no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="/bin/cryptroot-unlock" #' /etc/dropbear-initramfs/authorized_keys
+#sed -i '1s#^#no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="/bin/cryptroot-unlock" #' /etc/dropbear-initramfs/authorized_keys
 
-echo $(grep DRIVER /sys/class/net/eth0/device/uevent|cut -d'=' -f2) >> /etc/initramfs-tools/modules
+echo $(grep DRIVER /sys/class/net/$NET_INTERFACE/device/uevent|cut -d'=' -f2) >> /etc/initramfs-tools/modules
 
 cat << EOF >> /etc/initramfs-tools/conf.d/network_config
 #export ip=:::::eth0:dhcp
