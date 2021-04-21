@@ -1,4 +1,4 @@
-```apt-get install --no-install-recommends gettext build-essential autoconf libtool asciidoc xmlto automake```
+```apt-get install --no-install-recommends gettext build-essential autoconf libtool asciidoc xmlto automake pkg-config```
 
 ```#apt-get install libc-ares-dev libpcre3-dev libmbedtls-dev libsodium-dev libev-dev```
 
@@ -17,8 +17,8 @@ make
 make install
 ```
 ```
-wget https://github.com/ARMmbed/mbedtls/archive/v2.24.0.tar.gz && tar xvf v2.24.0.tar.gz
-cd mbedtls-2.24.0
+wget https://github.com/ARMmbed/mbedtls/archive/v2.26.0.tar.gz && tar xvf v2.26.0.tar.gz
+cd mbedtls-2.26.0
 make SHARED=1  #动态库，如果编译静态库shadowsocks的--enable-shared参数去掉
 make install DESTDIR=/usr 
 ```
