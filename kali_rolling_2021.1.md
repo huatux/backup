@@ -1,13 +1,12 @@
 ## Chinese Input method
 ```
-apt-get install fcitx5 fcitx5-pinyin kde-config-fcitx5
+apt-get install fcitx5 fcitx5-pinyin kde-config-fcitx5 fcitx5-material-color
 im-config
 sed -i 's/CloudPinyinEnabled=True/CloudPinyinEnabled=False/' /home/huatux/.config/fcitx5/conf/pinyin.conf
 ```
 
 ## chrome 
 ```
-apt-get install libdbusmenu-glib4 libdbusmenu-gtk4 libindicator7 libappindicator3-1
 dpkg -i google-chrome-stable_current_amd64.deb
 ```
 
