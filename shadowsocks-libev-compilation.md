@@ -50,7 +50,7 @@ make install
 ```
 --------------------------------------------------
 ```
-#服务端配置
+####服务端配置
 mkdir /etc/shadowsocks-libev
 
 cat << EOF > /etc/shadowsocks-libev/server.json
@@ -80,11 +80,12 @@ ExecStart=/usr/bin/ss-server -c /etc/shadowsocks-libev/server.json -u
 [Install]
 WantedBy=multi-user.target
 EOF
+
+#systemctl start/enable/stop/disable shadowsocks
 ```
-####systemctl start/enable/stop/disable shadowsocks
 -------------------------------------------------
 ```
-#客户端配置
+####客户端配置
 mkdir /etc/shadowsocks-libev
 
 cat << EOF > /etc/shadowsocks-libev/client.json
@@ -131,8 +132,9 @@ ExecStart=/usr/bin/ss-local -c /etc/shadowsocks-libev/%i.json
 [Install]
 WantedBy=multi-user.target
 EOF
+
+#systemctl start/enable/stop/disable shadowsocks@配置文件名
 ```
-####systemctl start/enable/stop/disable shadowsocks@配置文件名
 ----------------------------------
 #### RedHat 系列‘systemctl’文件路径改为   
 /usr/lib/systemd/system/shadowsocks-libev.service</br>
