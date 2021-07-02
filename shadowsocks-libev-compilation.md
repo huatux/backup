@@ -81,9 +81,12 @@ ExecStart=/usr/bin/ss-server -c /etc/shadowsocks-libev/server.json -u
 WantedBy=multi-user.target
 EOF
 ```
+####systemctl start/enable/stop/disable shadowsocks
 -------------------------------------------------
 ```
 #客户端配置
+mkdir /etc/shadowsocks-libev
+
 cat << EOF > /etc/shadowsocks-libev/client.json
 {
     "server":"0.0.0.0",
