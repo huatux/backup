@@ -1,4 +1,6 @@
-####
+-----------------------------------------------------------
+#### 编译
+
 ```apt-get install --no-install-recommends gettext build-essential autoconf libtool asciidoc xmlto automake pkg-config```
 
 ```#apt-get install libc-ares-dev libpcre3-dev libmbedtls-dev libsodium-dev libev-dev```
@@ -50,7 +52,7 @@ make
 make install
 ```
 --------------------------------------------------
-####服务端配置
+#### 服务端配置
 ```
 mkdir /etc/shadowsocks-libev
 
@@ -85,7 +87,7 @@ EOF
 #systemctl start/enable/stop/disable shadowsocks
 ```
 -------------------------------------------------
-####客户端配置
+#### 客户端配置
 ```
 mkdir /etc/shadowsocks-libev
 
