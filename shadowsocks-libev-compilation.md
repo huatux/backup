@@ -50,6 +50,7 @@ make install
 ```
 --------------------------------------------------
 ```
+#服务端配置
 mkdir /etc/shadowsocks-libev
 
 cat << EOF > /etc/shadowsocks-libev/server.json
@@ -63,24 +64,6 @@ cat << EOF > /etc/shadowsocks-libev/server.json
 }
 EOF
 
-cat << EOF > /etc/shadowsocks-libev/client.json
-{
-    "server":"0.0.0.0",
-    "server_port":PORT,
-    "local_address":"127.0.0.1",
-    "local_port":8080,
-    "nameserver":"8.8.8.8",
-    "password":"PASS",
-    "timeout":300,
-    "method":"chacha20-ietf-poly1305"
-}
-EOF
-
-ss-server -a nobody -u -c /etc/shadowsocks-libev/server.json -f /var/run/shadowsocks.pid
-ss-local -c /etc/shadowsocks-libev/client.json -u
-```
--------------------------------------------------
-```
 cat << EOF >> /lib/systemd/system/shadowsocks-libev.service
 [Unit]
 Description=Shadowsocks-libev Default Server Service
@@ -98,25 +81,55 @@ ExecStart=/usr/bin/ss-server -c /etc/shadowsocks-libev/server.json -u
 WantedBy=multi-user.target
 EOF
 ```
-----------------------------------------------------
+-------------------------------------------------
 ```
-cat << EOF >> /lib/systemd/system/shadowsocks.service
+#客户端配置
+cat << EOF > /etc/shadowsocks-libev/client.json
+{
+    "server":"0.0.0.0",
+    "server_port":PORT,
+    "local_address":"127.0.0.1",
+    "local_port":8080,
+    "nameserver":"8.8.8.8",
+    "password":"PASS",
+    "timeout":300,
+    "method":"chacha20-ietf-poly1305"
+}
+EOF
+
+cat << EOF > /etc/shadowsocks-libev/client2.json
+{
+    "server":"0.0.0.0",
+    "server_port":PORT,
+    "local_address":"127.0.0.1",
+    "local_port":8080,
+    "nameserver":"8.8.8.8",
+    "password":"PASS",
+    "timeout":300,
+    "method":"chacha20-ietf-poly1305"
+}
+EOF
+
+
+cat << EOF >> /lib/systemd/system/shadowsocks@.service
 [Unit]
 Description=Shadowsocks-Libev Custom Client Service for X
 Documentation=man:ss-local(1)
-After=network.target
+After=network-online.target
 
 [Service]
 Type=simple
 User=nobody
 Group=nogroup
 CapabilityBoundingSet=CAP_NET_BIND_SERVICE
-ExecStart=/usr/bin/ss-local -c /etc/shadowsocks-libev/client.json
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+ExecStart=/usr/bin/ss-local -c /etc/shadowsocks-libev/%i.json
 
 [Install]
 WantedBy=multi-user.target
 EOF
 ```
+####systemctl start/enable/stop/disable shadowsocks@配置文件名
 ----------------------------------
 #### RedHat 系列‘systemctl’文件路径改为   
 /usr/lib/systemd/system/shadowsocks-libev.service</br>
