@@ -1,0 +1,15 @@
+#查看密码槽
+cryptsetup luksDump /dev/sda5
+#添加新密码
+cryptsetup luksAddKey /dev/sda5
+#移除密码
+cryptsetup luksRemoveKey /dev/sda5
+#修改密码
+cryptsetup luksChangeKey /dev/sda5
+#备份luks头文件,并gpg加密保存
+cryptsetup luksHeaderBackup --header-backup-file luksheader.back /dev/sda5
+gpg -e -r huatux luksheader.back
+#恢复luks头文件
+cryptsetup luksHeaderRestore --header-backup-file luksheader.back /dev/sda5
+#添加NUKE密码,输入此密码会清空所有密码槽
+cryptsetup luksAddNuke /dev/sda5

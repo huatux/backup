@@ -1,0 +1,471 @@
+root@kali:~# uname -a
+Linux kali 4.9.0-kali3-amd64 #1 SMP Debian 4.9.18-1kali1 (2017-04-04) x86_64 GNU/Linux
+
+root@kali:~# cat /etc/issue
+Kali GNU/Linux Rolling \n \l
+
+
+root@kali:~# lspci
+00:00.0 Host bridge: Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor DRAM Controller (rev 06)
+00:01.0 PCI bridge: Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor PCI Express x16 Controller (rev 06)
+00:02.0 VGA compatible controller: Intel Corporation 4th Gen Core Processor Integrated Graphics Controller (rev 06)
+00:03.0 Audio device: Intel Corporation Xeon E3-1200 v3/4th Gen Core Processor HD Audio Controller (rev 06)
+00:04.0 Signal processing controller: Intel Corporation Device 0c03 (rev 06)
+00:14.0 USB controller: Intel Corporation 8 Series/C220 Series Chipset Family USB xHCI (rev 05)
+00:16.0 Communication controller: Intel Corporation 8 Series/C220 Series Chipset Family MEI Controller #1 (rev 04)
+00:1a.0 USB controller: Intel Corporation 8 Series/C220 Series Chipset Family USB EHCI #2 (rev 05)
+00:1b.0 Audio device: Intel Corporation 8 Series/C220 Series Chipset High Definition Audio Controller (rev 05)
+00:1c.0 PCI bridge: Intel Corporation 8 Series/C220 Series Chipset Family PCI Express Root Port #3 (rev d5)
+00:1c.3 PCI bridge: Intel Corporation 8 Series/C220 Series Chipset Family PCI Express Root Port #4 (rev d5)
+00:1c.4 PCI bridge: Intel Corporation 8 Series/C220 Series Chipset Family PCI Express Root Port #5 (rev d5)
+00:1d.0 USB controller: Intel Corporation 8 Series/C220 Series Chipset Family USB EHCI #1 (rev 05)
+00:1f.0 ISA bridge: Intel Corporation HM87 Express LPC Controller (rev 05)
+00:1f.2 RAID bus controller: Intel Corporation 82801 Mobile SATA Controller [RAID mode] (rev 05)
+00:1f.3 SMBus: Intel Corporation 8 Series/C220 Series Chipset Family SMBus Controller (rev 05)
+01:00.0 3D controller: NVIDIA Corporation GM204M [GeForce GTX 980M] (rev a1)
+02:00.0 Ethernet controller: Qualcomm Atheros Killer E220x Gigabit Ethernet Controller (rev 10)
+03:00.0 Network controller: Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter (rev 20)
+04:00.0 Unassigned class [ff00]: Realtek Semiconductor Co., Ltd. RTS5227 PCI Express Card Reader (rev 01)
+
+root@kali:~# lsusb
+Bus 002 Device 002: ID 8087:8000 Intel Corp. 
+Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 002: ID 8087:8008 Intel Corp. 
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 004 Device 002: ID 0781:5580 SanDisk Corp. SDCZ80 Flash Drive
+Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 003 Device 004: ID 0cf3:e300 Atheros Communications, Inc. 
+Bus 003 Device 003: ID 187c:0528 Alienware Corporation 
+Bus 003 Device 006: ID 046d:c52b Logitech, Inc. Unifying Receiver
+Bus 003 Device 005: ID 0c45:6708 Microdia 
+Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+
+root@kali:~# cat /proc/cpuinfo 
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i7-4720HQ CPU @ 2.60GHz
+stepping	: 3
+microcode	: 0x1c
+cpu MHz		: 2600.000
+cache size	: 6144 KB
+physical id	: 0
+siblings	: 8
+core id		: 0
+cpu cores	: 4
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm epb tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 5196.79
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i7-4720HQ CPU @ 2.60GHz
+stepping	: 3
+microcode	: 0x1c
+cpu MHz		: 2301.977
+cache size	: 6144 KB
+physical id	: 0
+siblings	: 8
+core id		: 1
+cpu cores	: 4
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm epb tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 5199.75
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i7-4720HQ CPU @ 2.60GHz
+stepping	: 3
+microcode	: 0x1c
+cpu MHz		: 2102.819
+cache size	: 6144 KB
+physical id	: 0
+siblings	: 8
+core id		: 2
+cpu cores	: 4
+apicid		: 4
+initial apicid	: 4
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm epb tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 5199.85
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i7-4720HQ CPU @ 2.60GHz
+stepping	: 3
+microcode	: 0x1c
+cpu MHz		: 2281.665
+cache size	: 6144 KB
+physical id	: 0
+siblings	: 8
+core id		: 3
+cpu cores	: 4
+apicid		: 6
+initial apicid	: 6
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm epb tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 5199.88
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 4
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i7-4720HQ CPU @ 2.60GHz
+stepping	: 3
+microcode	: 0x1c
+cpu MHz		: 2177.087
+cache size	: 6144 KB
+physical id	: 0
+siblings	: 8
+core id		: 0
+cpu cores	: 4
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm epb tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 5200.84
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 5
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i7-4720HQ CPU @ 2.60GHz
+stepping	: 3
+microcode	: 0x1c
+cpu MHz		: 2600.317
+cache size	: 6144 KB
+physical id	: 0
+siblings	: 8
+core id		: 1
+cpu cores	: 4
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm epb tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 5199.81
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 6
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i7-4720HQ CPU @ 2.60GHz
+stepping	: 3
+microcode	: 0x1c
+cpu MHz		: 1075.610
+cache size	: 6144 KB
+physical id	: 0
+siblings	: 8
+core id		: 2
+cpu cores	: 4
+apicid		: 5
+initial apicid	: 5
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm epb tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 5199.78
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+processor	: 7
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 60
+model name	: Intel(R) Core(TM) i7-4720HQ CPU @ 2.60GHz
+stepping	: 3
+microcode	: 0x1c
+cpu MHz		: 2600.000
+cache size	: 6144 KB
+physical id	: 0
+siblings	: 8
+core id		: 3
+cpu cores	: 4
+apicid		: 7
+initial apicid	: 7
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 13
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm epb tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid xsaveopt dtherm ida arat pln pts
+bugs		:
+bogomips	: 5199.88
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+root@kali:~# cat /proc/meminfo
+MemTotal:       16319364 kB
+MemFree:        14293656 kB
+MemAvailable:   15001548 kB
+Buffers:          177956 kB
+Cached:          1005076 kB
+SwapCached:            0 kB
+Active:          1072700 kB
+Inactive:         756188 kB
+Active(anon):     675500 kB
+Inactive(anon):   223800 kB
+Active(file):     397200 kB
+Inactive(file):   532388 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:                 0 kB
+Writeback:             0 kB
+AnonPages:        645976 kB
+Mapped:           218740 kB
+Shmem:            253444 kB
+Slab:             102640 kB
+SReclaimable:      62028 kB
+SUnreclaim:        40612 kB
+KernelStack:        7104 kB
+PageTables:        21100 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     8159680 kB
+Committed_AS:    3547428 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:      126812 kB
+DirectMap2M:     6047744 kB
+DirectMap1G:    10485760 kB
+
+root@kali:~# lsmod
+Module                  Size  Used by
+hid_logitech_hidpp     28672  0
+hid_logitech_dj        20480  0
+ctr                    16384  6
+ccm                    20480  3
+nls_ascii              16384  1
+nls_cp437              20480  1
+vfat                   20480  1
+fat                    69632  1 vfat
+fuse                   98304  3
+arc4                   16384  2
+nfnetlink_queue        24576  0
+nfnetlink_log          20480  0
+nfnetlink              16384  2 nfnetlink_log,nfnetlink_queue
+ath10k_pci             45056  0
+ath10k_core           249856  1 ath10k_pci
+ath                    32768  1 ath10k_core
+mac80211              671744  1 ath10k_core
+uvcvideo               90112  0
+videobuf2_vmalloc      16384  1 uvcvideo
+videobuf2_memops       16384  1 videobuf2_vmalloc
+videobuf2_v4l2         24576  1 uvcvideo
+videobuf2_core         36864  2 uvcvideo,videobuf2_v4l2
+snd_hda_codec_hdmi     49152  1
+videodev              176128  3 uvcvideo,videobuf2_core,videobuf2_v4l2
+cfg80211              589824  3 mac80211,ath,ath10k_core
+intel_rapl             20480  0
+btusb                  45056  0
+x86_pkg_temp_thermal    16384  0
+intel_powerclamp       16384  0
+iTCO_wdt               16384  0
+coretemp               16384  0
+iTCO_vendor_support    16384  1 iTCO_wdt
+kvm_intel             192512  0
+btrtl                  16384  1 btusb
+btbcm                  16384  1 btusb
+btintel                16384  1 btusb
+bluetooth             552960  5 btrtl,btintel,btbcm,btusb
+snd_hda_codec_ca0132    49152  1
+snd_soc_rt5640        118784  0
+media                  40960  2 uvcvideo,videodev
+snd_hda_intel          36864  6
+kvm                   589824  1 kvm_intel
+snd_hda_codec         135168  3 snd_hda_intel,snd_hda_codec_hdmi,snd_hda_codec_ca0132
+snd_soc_ssm4567        16384  0
+snd_hda_core           81920  4 snd_hda_intel,snd_hda_codec,snd_hda_codec_hdmi,snd_hda_codec_ca0132
+dell_wmi               16384  0
+sparse_keymap          16384  1 dell_wmi
+snd_soc_rl6231         16384  1 snd_soc_rt5640
+dell_smbios            16384  1 dell_wmi
+snd_soc_core          212992  2 snd_soc_ssm4567,snd_soc_rt5640
+dcdbas                 16384  1 dell_smbios
+crc16                  16384  1 bluetooth
+irqbypass              16384  1 kvm
+crct10dif_pclmul       16384  0
+crc32_pclmul           16384  0
+ghash_clmulni_intel    16384  0
+intel_cstate           16384  0
+intel_uncore          118784  0
+snd_compress           20480  1 snd_soc_core
+snd_hwdep              16384  1 snd_hda_codec
+snd_pcm               110592  7 snd_hda_intel,snd_hda_codec,snd_hda_core,snd_soc_rt5640,snd_hda_codec_hdmi,snd_soc_core
+rtsx_pci_ms            20480  0
+intel_rapl_perf        16384  0
+joydev                 20480  0
+memstick               20480  1 rtsx_pci_ms
+ie31200_edac           16384  0
+efi_pstore             16384  0
+mei_me                 36864  0
+serio_raw              16384  0
+pcspkr                 16384  0
+lpc_ich                24576  0
+snd_timer              32768  1 snd_pcm
+mei                   102400  1 mei_me
+shpchp                 36864  0
+sg                     32768  0
+efivars                20480  1 efi_pstore
+edac_core              57344  1 ie31200_edac
+snd                    86016  20 snd_compress,snd_hda_intel,snd_hwdep,snd_hda_codec,snd_timer,snd_hda_codec_hdmi,snd_hda_codec_ca0132,snd_soc_core,snd_pcm
+int3400_thermal        16384  0
+acpi_thermal_rel       16384  1 int3400_thermal
+int3403_thermal        16384  0
+soundcore              16384  1 snd
+dell_rbtn              16384  0
+acpi_als               16384  0
+kfifo_buf              16384  1 acpi_als
+industrialio           69632  2 acpi_als,kfifo_buf
+tpm_tis                16384  0
+snd_soc_sst_acpi       16384  0
+int3402_thermal        16384  0
+snd_soc_sst_match      16384  1 snd_soc_sst_acpi
+tpm_tis_core           20480  1 tpm_tis
+rfkill                 24576  7 bluetooth,dell_rbtn,cfg80211
+tpm                    45056  2 tpm_tis,tpm_tis_core
+dw_dmac                16384  0
+battery                16384  0
+int340x_thermal_zone    16384  2 int3402_thermal,int3403_thermal
+dw_dmac_core           24576  1 dw_dmac
+ac                     16384  0
+elan_i2c               36864  0
+acpi_pad               24576  0
+evdev                  24576  17
+binfmt_misc            20480  1
+efivarfs               16384  1
+ip_tables              24576  0
+x_tables               36864  1 ip_tables
+autofs4                40960  2
+squashfs               53248  1
+loop                   28672  2
+overlay                49152  1
+nls_utf8               16384  1
+isofs                  40960  1
+sd_mod                 45056  3
+uas                    24576  0
+usb_storage            73728  3 uas
+hid_generic            16384  0
+usbhid                 53248  0
+crc32c_intel           24576  0
+rtsx_pci_sdmmc         24576  0
+nouveau              1544192  0
+ahci                   36864  0
+libahci                32768  1 ahci
+mxm_wmi                16384  1 nouveau
+i915                 1236992  15
+aesni_intel           167936  6
+xhci_pci               16384  0
+aes_x86_64             20480  1 aesni_intel
+i2c_algo_bit           16384  2 nouveau,i915
+libata                249856  2 ahci,libahci
+glue_helper            16384  1 aesni_intel
+ehci_pci               16384  0
+lrw                    16384  1 aesni_intel
+gf128mul               16384  1 lrw
+ablk_helper            16384  1 aesni_intel
+xhci_hcd              188416  1 xhci_pci
+ehci_hcd               81920  1 ehci_pci
+drm_kms_helper        155648  2 nouveau,i915
+cryptd                 24576  3 ablk_helper,ghash_clmulni_intel,aesni_intel
+ttm                    98304  1 nouveau
+psmouse               135168  0
+i2c_i801               24576  0
+scsi_mod              225280  5 sd_mod,usb_storage,libata,uas,sg
+i2c_smbus              16384  1 i2c_i801
+usbcore               249856  9 uvcvideo,usbhid,usb_storage,ehci_hcd,xhci_pci,btusb,uas,xhci_hcd,ehci_pci
+rtsx_pci               57344  2 rtsx_pci_sdmmc,rtsx_pci_ms
+alx                    45056  0
+mfd_core               16384  2 lpc_ich,rtsx_pci
+mdio                   16384  1 alx
+usb_common             16384  1 usbcore
+drm                   360448  7 nouveau,i915,ttm,drm_kms_helper
+thermal                20480  0
+i2c_hid                20480  0
+sdhci_acpi             16384  0
+hid                   122880  5 i2c_hid,hid_generic,usbhid,hid_logitech_dj,hid_logitech_hidpp
+sdhci                  45056  1 sdhci_acpi
+wmi                    16384  3 dell_wmi,mxm_wmi,nouveau
+video                  40960  3 dell_wmi,nouveau,i915
+i2c_designware_platform    16384  0
+mmc_core              147456  3 rtsx_pci_sdmmc,sdhci,sdhci_acpi
+i2c_designware_core    20480  1 i2c_designware_platform
+button                 16384  2 nouveau,i915
+
+

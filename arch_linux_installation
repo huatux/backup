@@ -1,0 +1,79 @@
+#archlinux-2021.12.01-x86_64.iso
+#parted -s /dev/sda mklabel dos
+#parted -s /dev/sda mkpart primary swap 0% 2G
+#parted -s /dev/sda mkpart primary ext4 2G 100%
+
+=================================================
+echo "n
+p
+1
+
++2G
+n
+p
+2
+
+
+w
+"|fdisk /dev/sda
+=================================================
+
+mkswap /dev/sda1
+mkfs.ext4 /dev/sda2
+mount -t ext4 /dev/sda2 /mnt
+swapon /dev/sda1
+
+pacstrap /mnt base linux linux-firmware
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+
+ln -sf /usr/share/zoneinfo/Asia/Chongqing /etc/localtime
+
+locale-gen
+
+cat > /etc/locale.gen << EOF
+en_US.UTF-8 UTF-8  
+zh_CN.UTF-8 UTF-8  
+EOF
+
+cat > /etc/hostname << EOF
+ArchLinux
+EOF
+
+mkinitcpio -P
+
+pacman -S --noconfirm net-tools dnsutils inetutils iproute2
+pacman -S --noconfirm openssh
+sed -i 's/^#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+systemctl enable sshd
+ 
+pacman -S --noconfirm networkmanager
+systemctl enable NetworkManager
+ 
+#pacman -S --noconfirm gnome gnome-extra
+#systemctl enable gdm
+
+useradd -m -G wheel -s /bin/bash huatux
+passwd huatux
+passwd root
+
+pacman -S --noconfirm grub
+grub-install /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+
+pacman -S fcitx fcitx-im fcitx-googlepinyin fcitx-configtool
+cat > /home/huatux/.xprofile << EOF
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+EOF
+
+cat > /home/huatux/.xinitrc << EOF
+exec gnome-session
+EOF
+
+tar xvf firefox-54.0.1.tar.bz2 -C /usr/local/share/
+ln -s /usr/local/share/firefox/firefox /usr/bin/firefox
+
+exit
+reboot

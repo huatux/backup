@@ -1,0 +1,18 @@
+=====================换背景============================
+cp xxx.jpg /boot/grub/background.jpg
+
+cat << EOF >> /etc/default/grub
+GRUB_BACKGROUND="/boot/grub/background.jpg"
+EOF
+
+
+======================给GRUB2加密码====================
+grub-mkpasswd-pbkdf2
+
+
+cat << EOF >> /etc/grub.d/40_custom
+set superusers="root"
+password_pbkdf2 root grub.pbkdf2.sha512.10000.xxxxxx
+EOF
+
+update-grub

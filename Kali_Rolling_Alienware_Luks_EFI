@@ -1,0 +1,252 @@
+cat > /etc/apt/sources.list << EOF
+deb https://kali.download/kali kali-rolling main contrib non-free
+deb-src https://kali.download/kali kali-rolling main contrib non-free
+EOF
+
+parted -s /dev/sdb mklabel gpt
+
+###root@kali:~# fdisk -l
+###Disk /dev/sdb: 477 GiB, 512110190592 bytes, 1000215216 sectors
+###Units: sectors of 1 * 512 = 512 bytes
+###Sector size (logical/physical): 512 bytes / 512 bytes
+###I/O size (minimum/optimal): 512 bytes / 512 bytes
+###Disklabel type: gpt
+###Disk identifier: 624EFB80-73E2-4026-8B22-B05408092C2A
+
+cfdisk /dev/sdb
+###                                              Disk: /dev/sdb
+###                            Size: 477 GiB, 512110190592 bytes, 1000215216 sectors
+###                        Label: gpt, identifier: 624EFB80-73E2-4026-8B22-B05408092C2A
+###
+### Device                       Start                End           Sectors           Size Type
+### /dev/sdb1                     2048            1050623           1048576           512M EFI System              
+### /dev/sdb2                  1050624            1574911            524288           256M Linux filesystem
+### /dev/sdb3                  1574912         1000215182         998640271         476.2G Linux filesystem
+ 
+
+mkfs.fat -F32 /dev/sdb1
+mkfs.ext3 /dev/sdb2
+cryptsetup -v --verify-passphrase luksFormat /dev/sdb3
+cryptsetup luksOpen /dev/sdb3 encryption
+
+pvcreate /dev/mapper/encryption
+vgcreate kali /dev/mapper/encryption
+lvcreate -L 50G kali -n root
+lvcreate -L 8G kali -n swap
+lvcreate -L 50G kali -n home
+lvcreate -L 50G kali -n usr
+lvcreate -L 30G kali -n var
+lvcreate -L 20G kali -n tmp
+lvcreate -l +100%FREE kali -n data
+lvdisplay
+
+mkfs.ext4 /dev/mapper/kali-root
+mkswap /dev/mapper/kali-swap
+mkfs.ext4 /dev/mapper/kali-home
+mkfs.ext4 /dev/mapper/kali-usr
+mkfs.ext4 /dev/mapper/kali-var
+mkfs.ext4 /dev/mapper/kali-tmp
+mkfs.ext4 /dev/mapper/kali-data
+
+mkdir /mnt/kali
+mount -t ext4 /dev/mapper/kali-root /mnt/kali
+mkdir -pv /mnt/kali/{boot,home,usr,var,tmp,data,proc,dev,sys}
+
+mount -t ext3 /dev/sdb2 /mnt/kali/boot
+mkdir /mnt/kali/boot/efi
+mount -t vfat /dev/sdb1 /mnt/kali/boot/efi
+mount -t ext4 /dev/mapper/kali-home /mnt/kali/home
+mount -t ext4 /dev/mapper/kali-usr /mnt/kali/usr
+mount -t ext4 /dev/mapper/kali-var /mnt/kali/var
+mount -t ext4 /dev/mapper/kali-tmp /mnt/kali/tmp
+mount -t ext4 /dev/mapper/kali-data /mnt/kali/data
+swapon /dev/mapper/kali-swap
+
+mount -vt proc proc /mnt/kali/proc
+mount -vt sysfs sysfs /mnt/kali/sys
+mount -v -o bind /dev /mnt/kali/dev
+mount -f -vt tmpfs tmpfs /mnt/kali/dev/shm
+mount -f -vt devpts -o gid=4,mode=620 devpts /mnt/kali/dev/pts
+
+################################Method ONE################################
+apt-get update
+apt-get -y install debootstrap
+debootstrap --foreign --arch amd64 kali-rolling /mnt/kali https://kali.download/kali
+
+mkdir /mnt/kali/etc/lvm
+rsync -avz /etc/lvm/* /mnt/kali/etc/lvm
+
+cat > /mnt/kali/etc/apt/sources.list << EOF
+deb https://kali.download/kali kali-rolling main contrib non-free
+deb-src https://kali.download/kali kali-rolling main contrib non-free
+EOF
+
+cat > /mnt/kali/etc/resolv.conf << EOF
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+EOF
+
+echo 'Alienware' > /mnt/kali/etc/hostname
+
+cat > /mnt/kali/etc/hosts << EOF
+127.0.0.1       localhost kali
+::1             localhost ip6-localhost ip6-loopback
+fe00::0         ip6-localnet
+ff00::0         ip6-mcastprefix
+ff02::1         ip6-allnodes
+ff02::2         ip6-allrouters
+EOF
+
+cat > /mnt/kali/etc/crypttab << EOF
+encryption /dev/sdb3 none luks
+EOF
+
+cat > /mnt/kali/etc/fstab << EOF
+/dev/mapper/kali-root     /            ext4    errors=remount-ro    0    1
+/dev/sdb2                 /boot        ext3    defaults             0    2
+/dev/sdb1                 /boot/efi    vfat    defaults             0    2
+/dev/mapper/kali-swap     none         swap    sw                   0    0
+/dev/mapper/kali-home     /home        ext4    defaults             0    2
+/dev/mapper/kali-usr      /usr	       ext4    defaults	            0    2
+/dev/mapper/kali-var      /var         ext4    defaults             0    2
+/dev/mapper/kali-tmp      /tmp         ext4    defaults             0    2
+/dev/mapper/kali-data     /data        ext4    defaults             0    2
+EOF
+
+cat >> /mnt/kali/etc/modprobe.d/blacklist.conf<< EOF
+blacklist floppy
+EOF
+
+cp /root/.bashrc /mnt/kali/root/
+
+LANG=C chroot /mnt/kali /debootstrap/debootstrap --second-stage
+
+chroot /mnt/kali/ /bin/bash
+
+chmod 1777 /tmp
+
+apt-get update
+
+apt-get -y install net-tools initramfs-tools openssh-server linux-image-5.6.0-kali2-amd64
+apt-get -y install locales-all console-common less vim git apt-transport-https network-manager
+apt-get -y install cryptsetup lvm2
+
+apt-get -y install kali-linux-full
+apt-get -y install kali-desktop-gnome
+apt-get -y install gnome-terminal
+#apt-get -y install xfce4 kali-menu wpasupplicant kali-defaults
+apt-get -y install firmware-linux-nonfree firmware-misc-nonfree firmware-atheros
+
+
+ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+apt-get -y install grub-efi-amd64
+grub-install /dev/sdb
+update-grub
+efibootmgr -v
+update-initramfs -u
+
+
+dpkg-reconfigure locales
+passwd root
+useradd -m -G video,audio,cdrom,sudo -s /bin/bash huatux
+passwd huatux
+
+exit
+for fs in /dev /sys /proc;do umount /mnt/kali$fs;done
+umount /mnt/kali/boot/efi
+umount /mnt/kali/boot
+umount /mnt/kali/home
+umount /mnt/kali/usr
+umount /mnt/kali/var
+umount /mnt/kali/tmp
+umount /mnt/kali/data
+reboot
+
+################################Method TWO################################
+rsync -aAXv /lib/live/mount/rootfs/filesystem.squashfs/ --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"}  /mnt/kali/
+
+mkdir /mnt/kali/etc/lvm
+rsync -avz /etc/lvm/* /mnt/kali/etc/lvm
+
+cat > /mnt/kali/etc/apt/sources.list << EOF
+deb https://kali.download/kali kali-rolling main contrib non-free
+deb-src https://kali.download/kali kali-rolling main contrib non-free
+EOF
+
+cat > /mnt/kali/etc/resolv.conf << EOF
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+EOF
+
+echo 'Alienware' > /mnt/kali/etc/hostname
+
+cat > /mnt/kali/etc/hosts << EOF
+127.0.0.1       localhost kali
+::1             localhost ip6-localhost ip6-loopback
+fe00::0         ip6-localnet
+ff00::0         ip6-mcastprefix
+ff02::1         ip6-allnodes
+ff02::2         ip6-allrouters
+EOF
+
+cat > /mnt/kali/etc/crypttab << EOF
+encryption /dev/sdb3 none luks
+EOF
+
+cat > /mnt/kali/etc/fstab << EOF
+/dev/mapper/kali-root     /            ext4    errors=remount-ro    0    1
+/dev/sdb2                 /boot        ext3    defaults             0    2
+/dev/sdb1                 /boot/efi    vfat    defaults             0    2
+/dev/mapper/kali-swap     none         swap    sw                   0    0
+/dev/mapper/kali-home     /home        ext4    defaults             0    2
+/dev/mapper/kali-usr      /usr	       ext4    defaults	            0    2
+/dev/mapper/kali-var      /var         ext4    defaults             0    2
+/dev/mapper/kali-tmp      /tmp         ext4    defaults             0    2
+/dev/mapper/kali-data     /data        ext4    defaults             0    2
+EOF
+
+cat >> /mnt/kali/etc/modprobe.d/blacklist.conf<< EOF
+blacklist floppy
+EOF
+
+cp /root/.bashrc /mnt/kali/root/
+
+chroot /mnt/kali/ /bin/bash
+
+chmod 1777 /tmp
+
+apt update
+apt -y install grub-efi-amd64
+grub-install /dev/sdb
+update-grub
+efibootmgr -v
+update-initramfs -u
+
+
+dpkg-reconfigure locales
+passwd root
+useradd -m -G video,audio,cdrom,sudo -s /bin/bash huatux
+passwd huatux
+
+exit
+for fs in /dev /sys /proc /dev/pts;do umount /mnt/kali$fs;done
+umount /mnt/kali/boot/efi
+umount /mnt/kali/boot
+umount /mnt/kali/home
+umount /mnt/kali/usr
+umount /mnt/kali/var
+umount /mnt/kali/tmp
+umount /mnt/kali/data
+reboot
+
+############################################################################
+apt-get -y install build-essential
+
+#Chinese Input method
+apt-get install fcitx fcitx-googlepinyin
+
+#chrome 
+apt-get install libdbusmenu-glib4 libdbusmenu-gtk4 libindicator3-7 libappindicator3-1 gconf-service libgconf-2-4
+dpkg -i google-chrome-stable_current_amd64.deb
+

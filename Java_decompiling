@@ -1,0 +1,17 @@
+https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+export JDK_VERSION=jdk-17.0.3.1
+tar xvf ${JDK_VERSION}_linux-x64_bin.tar.gz -C /usr/lib/jvm/
+update-alternatives --install /usr/bin/java java /usr/lib/jvm/${JDK_VERSION}/bin/java 1
+update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/${JDK_VERSION}/bin/javac 1
+update-alternatives --install /usr/bin/jar jar /usr/lib/jvm/${JDK_VERSION}/bin/jar 1
+update-alternatives --set java  /usr/lib/jvm/${JDK_VERSION}/bin/java
+update-alternatives --set javac  /usr/lib/jvm/${JDK_VERSION}/bin/javac
+update-alternatives --set jar  /usr/lib/jvm/${JDK_VERSION}/bin/jar
+java -version
+
+git clone https://github.com/JetBrains/intellij-community/
+cd intellij-community/plugins/java-decompiler/engine/
+./gradlew build
+cp build/libs/fernflower.jar /tmp/fernflower.jar
+
+java -cp fernflower.jar org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler -dgs=true /tmp/cobaltstrike_4.5_original.jar /tmp/decompiled

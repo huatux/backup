@@ -1,0 +1,5 @@
+apt-get install alsa-utils
+
+alsamixer  [Fn+F6  --> HDI ATI HDMI]所有都静音 
+alsactl store 
+重启后耳机插口的红光默认关闭
