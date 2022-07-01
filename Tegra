@@ -1,0 +1,50 @@
+#https://developer.nvidia.com/embedded/linux-tegra-r3244
+#https://developer.nvidia.com/embedded/downloads#?tx=$product,jetson_tx1
+
+cd /tmp
+mkdir -pv /tmp/bsp/{kernel,rootfs,tools}
+mkdir -pv /tmp/{kernel,rootfs}
+
+#ROOTFS
+#https://developer.nvidia.com/embedded/L4T/r32_Release_v4.4/r32_Release_v4.4-GMC3/T210/Tegra_Linux_Sample-Root-Filesystem_R32.4.4_aarch64.tbz2
+#https://developer.nvidia.com/embedded/L4T/r32_Release_v4.4/r32_Release_v4.4-GMC3/Sources/ubuntu_bionic-l4t_lxde_aarch64_src.tbz2
+
+#gcc-linaro-7.3.1
+#https://developer.nvidia.com/embedded/dlc/l4t-gcc-7-3-1-toolchain-64-bit
+
+#Drivers
+#https://developer.nvidia.com/embedded/L4T/r32_Release_v4.4/r32_Release_v4.4-GMC3/T210/Tegra210_Linux_R32.4.4_aarch64.tbz2
+
+#kernel uboot
+#https://developer.nvidia.com/embedded/L4T/r32_Release_v4.4/r32_Release_v4.4-GMC3/Sources/T210/public_sources.tbz2
+
+tar xvf gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu.tar.xz -C bsp/tools/
+
+tar xvf public_sources.tbz2 -C bsp/kernel/
+
+tar xvf bsp/kernel/Linux_for_Tegra/source/public/kernel_src.tbz2 -C kernel/
+
+tar xvf Tegra210_Linux_R32.4.4_aarch64.tbz2 -C bsp/rootfs/
+
+cp -rf bsp/rootfs/Linux_for_Tegra/* rootfs/
+
+tar -xpvf Tegra_Linux_Sample-Root-Filesystem_R32.4.4_aarch64.tbz2 -C rootfs/
+
+
+export PATH=$PATH:/tmp/bsp/tools/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/bin
+aarch64-linux-gnu-gcc -v
+
+#build ROOTFS
+cd rootfs
+./apply_binaries.sh
+
+cd /tmp
+cd kernel/kernel/kernel-4.9
+make ARCH=arm64 tegra_defconfig   #menuconfig
+make ARCH=arm64 LOCALVERSION=-tegra CROSS_COMPILE=aarch64-linux-gnu- -j
+
+cp arch/arm64/boot/Image /tmp/rootfs/kernel/
+cp arch/arm64/boot/dts/tegra1* /tmp/rootfs/kernel/dtb/
+make ARCH=arm64 modules_install INSTALL_MOD_PATH=/root/rootfs
+
+......to do,busy
