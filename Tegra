@@ -45,6 +45,6 @@ make ARCH=arm64 LOCALVERSION=-tegra CROSS_COMPILE=aarch64-linux-gnu- -j
 
 cp arch/arm64/boot/Image /tmp/rootfs/kernel/
 cp arch/arm64/boot/dts/tegra1* /tmp/rootfs/kernel/dtb/
-make ARCH=arm64 modules_install INSTALL_MOD_PATH=/root/rootfs
+make ARCH=arm64 modules_install INSTALL_MOD_PATH=/tmp/rootfs
 
 ......to do,busy
