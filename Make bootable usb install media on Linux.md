@@ -43,8 +43,8 @@ mount -t vfat /dev/sdb1 /tmp/vfat/
 mount -t ntfs /dev/sdb2 /tmp/ntfs/
 ```
 ```bash
-rsync -avz --exclude=sources/ /media/cdrom/* vfat/
-rsync -avz --exclude=boot.wim /media/cdrom/sources/* ntfs/sources/
+rsync -avz --exclude=sources/ /media/cdrom/* /tmp/vfat/
+rsync -avz --exclude=boot.wim /media/cdrom/sources/* /tmp/ntfs/sources/
 mkdir /tmp/vfat/sources/
 cp /media/cdrom/sources/boot.wim /tmp/vfat/sources/
 umount /tmp/vfat
