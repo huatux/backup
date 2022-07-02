@@ -36,7 +36,7 @@ mkfs.vfat /dev/sdb1
 mkfs.ntfs -Q /dev/sdb2
 ```
 ```bash
-mkdir -pv /tmp/vfat,ntfs
+mkdir -pv /tmp/{vfat,ntfs}
 ```
 ```bash
 mount -t vfat /dev/sdb1 /tmp/vfat/
