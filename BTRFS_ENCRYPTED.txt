@@ -1,7 +1,52 @@
 apt install btrfs-progs
 
+echo "g
+n
+
+
+w"|fdisk /dev/sdb
+
 cryptsetup -v --verify-passphrase luksFormat /dev/sdb1
 
-cryptsetup luksOpen /dev/sdb1 BRTFS_ENCRYPTED
+cryptsetup luksOpen /dev/sdb1 BTRFS_ENCRYPTED
 
-mkfs.btrfs -L BRTFS_ENCRYPTED /dev/mapper/BRTFS_ENCRYPTED 
+mkfs.btrfs -L BTRFS_ENCRYPTED /dev/mapper/BTRFS_ENCRYPTED 
+
+mount /dev/mapper/BTRFS_ENCRYPTED /mnt
+
+btrfs subvolume create /mnt/DATA
+btrfs subvolume create /mnt/NOTE
+
+btrfs subvolume list /mnt
+#ID 256 gen 12 top level 5 path DATA
+#ID 257 gen 12 top level 5 path NOTE
+
+rsync -avz /root/DATA/* /mnt/DATA/
+rsync -avz /root/NOTE/* /mnt/NOTE/
+
+mkdir /mnt/.SNAPSHOTS
+btrfs subvolume snapshot /mnt/DATA /mnt/.SNAPSHOTS/DATA-2022-07-07
+btrfs subvolume snapshot /mnt/NOTE /mnt/.SNAPSHOTS/NOTE-2022-07-07
+
+vi /mnt/NOTE/BearKit.C
+#UPDATE SNAPSHOT
+#rsync -avz --delete /mnt/NOTE/ /mnt/.SNAPSHOTS/NOTE-2022-07-07/ 
+
+
+rm -rf /mnt/NOTE/*
+#RESTORE LOST FILE
+rsync -avz --delete /mnt/.SNAPSHOTS/NOTE-2022-07-07/ /mnt/NOTE/ 
+
+
+mkdir /tmp/DATA
+mount /dev/sdb1 -o subvol=DATA /tmp/DATA
+#OR  mount /dev/sdb1 -o subvolid=256 /tmp/DATA
+
+btrfs filesystem show /mnt
+btrfs filesystem usage /mnt
+
+#btrfs subvolume delete /mnt/SHOULDNT_BE_DELETE
+btrfs subvolume delete /mnt/.SNAPSHOTS/NOTE-2022-07-07
+
+
+
