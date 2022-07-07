@@ -39,8 +39,8 @@ rsync -avz --delete /mnt/.SNAPSHOTS/NOTE-2022-07-07/ /mnt/NOTE/
 
 
 mkdir /tmp/DATA
-mount /dev/sdb1 -o subvol=DATA /tmp/DATA
-#OR  mount /dev/sdb1 -o subvolid=256 /tmp/DATA
+mount -o subvol=DATA /dev/mapper/BTRFS_ENCRYPTED  /tmp/DATA
+#OR  mount -o subvolid=256 /dev/mapper/BTRFS_ENCRYPTED  /tmp/DATA
 
 btrfs filesystem show /mnt
 btrfs filesystem usage /mnt
