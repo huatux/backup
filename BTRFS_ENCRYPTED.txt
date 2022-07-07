@@ -1,0 +1,7 @@
+apt install btrfs-progs
+
+cryptsetup -v --verify-passphrase luksFormat /dev/sdb1
+
+cryptsetup luksOpen /dev/sdb1 BRTFS_ENCRYPTED
+
+mkfs.btrfs -L BRTFS_ENCRYPTED /dev/mapper/BRTFS_ENCRYPTED 
