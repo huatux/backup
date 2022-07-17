@@ -29,6 +29,6 @@ register mapping for library call
 | -------------	| -------------	| -------------	| -------------	| ------------- | -------------	|
 | rdi	| rsi	| rdx	| rcx	| r8	| r9 |
 
-(https://en.wikibooks.org/wiki/X86_Assembly/Interfacing_with_Linux#Via_dedicated_system_call_invocation_instruction)
+[ref](https://en.wikibooks.org/wiki/X86_Assembly/Interfacing_with_Linux#Via_dedicated_system_call_invocation_instruction)
 
-[sys_call_table](https://filippo.io/linux-syscall-table/)
+[linux-sys-call-table](https://filippo.io/linux-syscall-table/)
