@@ -20,3 +20,15 @@ register mapping for system call invocation using syscall
 | system call number	| 1st parameter	| 2nd parameter	| 3rd parameter	| 4th parameter | 5th parameter	| 6th parameter	| result |
 | ------------------	| -------------	| -------------	| -------------	| ------------- | -------------	| -------------	| ------ |
 | rax	| rdi	| rsi	| rdx	| r10	| r8	| r9	| rax |
+
+### library call
+In call of x86-64 Linux's C library functions, parameter 6 is passed on r9 and further parameters, onto the stack (in reverse order).
+
+register mapping for library call
+| 1st parameter	| 2nd parameter	| 3rd parameter	| 4th parameter	| 5th parameter	| 6th parameter |
+| -------------	| -------------	| -------------	| -------------	| ------------- | -------------	|
+| rdi	| rsi	| rdx	| rcx	| r8	| r9 |
+
+(https://en.wikibooks.org/wiki/X86_Assembly/Interfacing_with_Linux#Via_dedicated_system_call_invocation_instruction)
+
+[sys_call_table](https://filippo.io/linux-syscall-table/)
