@@ -13,3 +13,10 @@ The system call numbers are described in the Linux generated file $build/‌arch
 All registers are preserved during a system call with int $0x80.
 
 
+### Via dedicated system call invocation instruction
+The x86_64 architecture introduced a dedicated instruction to make a system call. It does not access the interrupt descriptor table and is faster. Parameters are passed by setting the GPRs as following:
+
+register mapping for system call invocation using syscall
+| system call number	| 1st parameter	| 2nd parameter	| 3rd parameter	| 4th parameter | 5th parameter	| 6th parameter	| result |
+| ------------------	| -------------	| -------------	| -------------	| ------------- | -------------	| -------------	| ------ |
+| rax	| rdi	| rsi	| rdx	| r10	| r8	| r9	| rax |
