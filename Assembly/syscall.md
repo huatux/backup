@@ -21,6 +21,10 @@ register mapping for system call invocation using syscall
 | ------------------	| -------------	| -------------	| -------------	| ------------- | -------------	| -------------	| ------ |
 | rax	| rdi	| rsi	| rdx	| r10	| r8	| r9	| rax |
 
+The syscall numbers are described in the Linux generated file $build/‌usr/‌include/‌asm/‌unistd_64.h. This file could also be present on your Linux system, just omit the $build.
+
+All registers, except rcx and r11 (and the return value, rax), are preserved during the system call with syscall.
+
 ### library call
 In call of x86-64 Linux's C library functions, parameter 6 is passed on r9 and further parameters, onto the stack (in reverse order).
 
@@ -28,6 +32,8 @@ register mapping for library call
 | 1st parameter	| 2nd parameter	| 3rd parameter	| 4th parameter	| 5th parameter	| 6th parameter |
 | -------------	| -------------	| -------------	| -------------	| ------------- | -------------	|
 | rdi	| rsi	| rdx	| rcx	| r8	| r9 |
+
+The caller can expect to find the return value of the subroutine in the register rax.
 
 [making-a-system-call](https://en.wikibooks.org/wiki/X86_Assembly/Interfacing_with_Linux#Via_dedicated_system_call_invocation_instruction)
 
