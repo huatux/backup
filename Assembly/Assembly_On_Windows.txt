@@ -2,8 +2,6 @@ D:\Code> cmd /k "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7
 
 D:\Code> "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\bin\Hostx64\x64\cl.exe" /c /FA /GS- Code.cpp
 
-D:\Code> type Code.asm
-
 d:\Code>type Code.cpp
 #include <Windows.h>
 #include <stdio.h>
