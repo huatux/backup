@@ -9,7 +9,7 @@ apt-get install --no-install-recommends gettext build-essential autoconf libtool
 > 编译
 ```bash
 LIBEV_VER=4.33
-MBEDTLS_VER=2.28.0
+MBEDTLS_VER=2.28.1
 LIBSODIUM_VER=LATEST
 PCRE_VER=8.45
 CARES_VER=1.18.1
