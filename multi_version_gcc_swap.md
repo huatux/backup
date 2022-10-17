@@ -1,4 +1,4 @@
-```
+```bash
 update-alternatives --install /usr/bin/gcc-11 gcc /usr/bin/x86_64-linux-gnu-gcc-11 1
 update-alternatives --install /usr/bin/gcc-12 gcc /usr/bin/x86_64-linux-gnu-gcc-12 2
 update-alternatives --set gcc /usr/bin/x86_64-linux-gnu-gcc-11
@@ -6,7 +6,7 @@ update-alternatives --set gcc /usr/bin/x86_64-linux-gnu-gcc-12
 
 ```
 
-
+```bash
 ┌──(root㉿localhost)-[/tmp/ffmpeg]
 └─# gcc -v
 Using built-in specs.
@@ -156,7 +156,4 @@ Subtitle options:
 -fix_sub_duration   fix subtitles duration
 -canvas_size size   set canvas size (WxH or abbreviation)
 -spre preset        set the subtitle options to the indicated preset
-
-
-
-
+```
