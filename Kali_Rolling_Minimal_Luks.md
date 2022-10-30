@@ -31,7 +31,7 @@ tar xvf debootstrap*.tar.gz -C /tmp
 rm -rf /usr/share/debootstrap
 ln -s /tmp/debootstrap /usr/share/debootstrap && cd /usr/share/debootstrap
 #wget -q -O - https://archive.kali.org/archive-key.asc | apt-key add
-./debootstrap --foreign --arch amd64 kali-rolling /mnt/kali http://kali.download/kali
+./debootstrap --foreign --arch amd64 kali-rolling /mnt/kali https://kali.download/kali
 ```
 ```bash
 mkdir /mnt/kali/etc/lvm
