@@ -5,7 +5,7 @@ parted -s /dev/sda mkpart primary ext4 0% 512M
 parted -s /dev/sda mkpart primary ext4 512M  100%
 ```
 ```bash
-mkfs.ext3 /dev/sda1
+mkfs.ext4 /dev/sda1
 cryptsetup -v --verify-passphrase luksFormat /dev/sda2
 cryptsetup luksOpen /dev/sda2 sda2-crypt
 ```
