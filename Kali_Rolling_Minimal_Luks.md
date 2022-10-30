@@ -130,7 +130,6 @@ grub-install /dev/sda
 update-grub
 ssh-keygen -A
 systemctl enable ssh
-update-initramfs -u
 
 sed -i '1iPort 2200' /etc/ssh/sshd_config
 sed -i 's/^#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
