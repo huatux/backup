@@ -106,12 +106,22 @@ chroot /mnt/kali /bin/bash
 ```
 ```bash
 apt update 
-apt-get -y install net-tools initramfs-tools openssh-server linux-image-5.9.0-kali5-amd64
+apt-get -y install net-tools initramfs-tools openssh-server linux-image-amd64
 apt-get -y install locales-all
 apt-get -y install locales console-common less vim git apt-transport-https network-manager
 apt-get -y install cryptsetup lvm2
 systemctl enable lvm2
 ```
+
+```bash
+cat > /mnt/kali/etc/apt/sources.list << EOF
+deb https://kali.download/kali kali-rolling main non-free contrib
+deb-src https://kali.download/kali kali-rolling main non-free contrib
+EOF
+
+apt update
+```
+
 <!-- more -->
 
 > **grub2** 安装的时候记得安装到 **/dev/sda**
