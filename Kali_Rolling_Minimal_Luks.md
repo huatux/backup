@@ -168,7 +168,7 @@ sed -i 's#GRUB_CMDLINE_LINUX=""#GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"
 chmod 600 /etc/dropbear/initramfs/authorized_keys
 update-initramfs -u
 exit
-for fs in /dev /sys /proc /dev/pts /;do umount /mnt/kali$fs;done
+for fs in /dev /boot /sys /proc /dev/pts /;do umount /mnt/kali$fs;done
 ```
 ```bash
 apt-get install build-essential
