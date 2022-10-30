@@ -26,7 +26,7 @@ mount -t ext4 /dev/sda1 /mnt/kali/boot
 ```
 ```bash
 cd /tmp
-wget http://kali.download/kali/pool/main/d/debootstrap/debootstrap_1.0.123.tar.gz
+wget http://kali.download/kali/pool/main/d/debootstrap/debootstrap_1.0.127.tar.gz
 tar xvf debootstrap*.tar.gz -C /tmp
 rm -rf /usr/share/debootstrap
 ln -s /tmp/debootstrap /usr/share/debootstrap && cd /usr/share/debootstrap
