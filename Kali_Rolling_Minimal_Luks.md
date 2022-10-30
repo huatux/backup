@@ -22,7 +22,7 @@ mkfs.ext4 /dev/mapper/kali-root
 mkdir /mnt/kali
 mount /dev/mapper/kali-root /mnt/kali
 mkdir /mnt/kali/boot
-mount -t ext3 /dev/sda1 /mnt/kali/boot
+mount -t ext4 /dev/sda1 /mnt/kali/boot
 ```
 ```bash
 cd /tmp
@@ -89,7 +89,7 @@ EOF
 ```bash
 cat > /mnt/kali/etc/fstab << EOF
 /dev/mapper/kali-root /               ext4    errors=remount-ro 0       1
-/dev/sda1 /boot           ext3    defaults        0       2
+/dev/sda1 /boot           ext4    defaults        0       2
 /dev/mapper/kali-swap none            swap    sw              0       0
 EOF
 ```
