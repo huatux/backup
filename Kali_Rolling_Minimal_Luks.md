@@ -1,7 +1,7 @@
 > /boot  **512M**
 ```bash
 parted -s /dev/sda mklabel msdos
-parted -s /dev/sda mkpart primary ext3 0% 512M
+parted -s /dev/sda mkpart primary ext4 0% 512M
 parted -s /dev/sda mkpart primary ext4 512M  100%
 ```
 ```bash
