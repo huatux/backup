@@ -110,11 +110,10 @@ apt-get -y install net-tools initramfs-tools openssh-server linux-image-amd64
 apt-get -y install locales-all
 apt-get -y install locales console-common less vim git apt-transport-https network-manager
 apt-get -y install cryptsetup lvm2
-systemctl enable lvm2
 ```
 
 ```bash
-cat > /mnt/kali/etc/apt/sources.list << EOF
+cat > /etc/apt/sources.list << EOF
 deb https://kali.download/kali kali-rolling main non-free contrib
 deb-src https://kali.download/kali kali-rolling main non-free contrib
 EOF
